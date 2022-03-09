@@ -45,6 +45,7 @@ const styles = {
     }
 };
 
+//Create a new memo or render an existing memo. 
 export default function Main(props) {
     const contextRef = createRef()
     const {memo,stake,totalStake,isNew} = props;

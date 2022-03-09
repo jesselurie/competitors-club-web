@@ -166,7 +166,7 @@ function Main() {
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/home.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
               />
               
           </Menu.Item>
@@ -178,7 +178,7 @@ function Main() {
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/tokens.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
               />
           </Menu.Item>
           <Menu.Item
@@ -188,7 +188,7 @@ function Main() {
             <Image
                   src={`${process.env.PUBLIC_URL}/assets/trophy.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
             />
           </Menu.Item>
           <Menu.Item
@@ -199,7 +199,7 @@ function Main() {
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/dice.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
               />
           </Menu.Item>
         </Menu>

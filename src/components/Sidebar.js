@@ -131,7 +131,7 @@ function SidebarExampleTransitions() {
           />
         <Sidebar.Pusher dimmed={dimmed && visible}>
           <Segment basic style={{height:400}}>
-            {/* <Button primary>Add Document</Button> */}
+            
           </Segment>
         </Sidebar.Pusher>
       </Sidebar.Pushable>

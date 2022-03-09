@@ -8,6 +8,7 @@ import { isTestChain } from '@polkadot/util'
 import { TypeRegistry } from '@polkadot/types/create'
 
 import config from '../config'
+import {types} from '../config/types';
 
 const parsedQuery = new URLSearchParams(window.location.search)
 const connectedSocket = parsedQuery.get('rpc') || config.PROVIDER_SOCKET
@@ -24,7 +25,7 @@ const initialState = {
   apiError: null,
   apiState: null,
   currentAccount: null,
-  types: config.types,
+  types: types,
 }
 
 const registry = new TypeRegistry()

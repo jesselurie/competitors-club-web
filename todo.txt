@@ -1,7 +1,10 @@
 March 6, 2022
 - Create welcome view  
-- Add react router
+- Add react router - DONE
 - Create game 
+- Home 
+- Tokens 
+- Games
 * Structure view with Memo, Players, Podium
 * Implement Memo component to have input or display game value. Lets use a button that opens a modal
 * Implement Players component to have input or display game value

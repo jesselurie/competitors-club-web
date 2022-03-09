@@ -13,7 +13,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PageLayout/>} >
-          <Route path="/home" element={<h1>Hello home</h1>}/>
+          <Route path="/home" element={<Home/>}/>
           <Route path="/tokens" element={<h1>Hello tokens</h1>}/>
           <Route path="/trophies" element={<h1>Hello trophies</h1>}/>
           <Route path="/competitions" element={<h1>Hello competitions</h1>}/>
