@@ -1,0 +1,22 @@
+March 6, 2022
+- Create welcome view  
+- Add react router
+- Create game 
+* Structure view with Memo, Players, Podium
+* Implement Memo component to have input or display game value. Lets use a button that opens a modal
+* Implement Players component to have input or display game value
+* Implement Podium component to have input or display game value
+* Create Add Player Button
+* Create Add Place Button 
+* Player Modal for input or display player value
+* Place Modal for input or display player value
+- Join game  
+- Finish game
+- Side Panel 
+- Send Tokens 
+- View Trophies 
+- View Games  
+- Integrate redux 
+- Switch tab view change 
+- Integrate endpoints
+- Implement manager view to load correct view   

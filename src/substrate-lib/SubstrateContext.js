@@ -24,6 +24,7 @@ const initialState = {
   apiError: null,
   apiState: null,
   currentAccount: null,
+  types: config.types,
 }
 
 const registry = new TypeRegistry()
@@ -58,7 +59,7 @@ const reducer = (state, action) => {
 // Connecting to the Substrate node
 
 const connect = (state, dispatch) => {
-  const { apiState, socket, jsonrpc } = state
+  const { apiState, socket, jsonrpc,types } = state
   // We only want this function to be performed once
   if (apiState) return
 
@@ -66,7 +67,7 @@ const connect = (state, dispatch) => {
 
   console.log(`Connected socket: ${socket}`)
   const provider = new WsProvider(socket)
-  const _api = new ApiPromise({ provider, rpc: jsonrpc })
+  const _api = new ApiPromise({ provider,types, rpc: jsonrpc })
 
   // Set listeners for disconnection and reconnection event.
   _api.on('connected', () => {

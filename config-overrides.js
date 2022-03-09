@@ -4,7 +4,9 @@ module.exports = function override(config, env) {
   config.resolve = {
     fallback: {
       stream: require.resolve('stream-browserify'),
+      'react/jsx-runtime': require.resolve('react/jsx-runtime'),
     },
+    
   }
   config.plugins.push(new NodePolyfillPlugin())
   return config

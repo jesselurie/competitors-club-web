@@ -22,6 +22,8 @@ import NodeInfo from './NodeInfo'
 import TemplateModule from './TemplateModule'
 import Transfer from './Transfer'
 import Upgrade from './Upgrade'
+import Create from './Create';
+import Welcome from './components/Welcome';
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
@@ -59,42 +61,12 @@ function Main() {
 
   return (
     <div ref={contextRef}>
-      <Sticky context={contextRef}>
-        <AccountSelector />
-      </Sticky>
-      <Container>
-        <Grid stackable columns="equal">
-          <Grid.Row stretched>
-            <NodeInfo />
-            <Metadata />
-            <BlockNumber />
-            <BlockNumber finalized />
-          </Grid.Row>
-          <Grid.Row stretched>
-            <Balances />
-          </Grid.Row>
-          <Grid.Row>
-            <Transfer />
-            <Upgrade />
-          </Grid.Row>
-          <Grid.Row>
-            <Interactor />
-            <Events />
-          </Grid.Row>
-          <Grid.Row>
-            <TemplateModule />
-          </Grid.Row>
-        </Grid>
-      </Container>
-      <DeveloperConsole />
     </div>
   )
 }
 
 export default function App() {
   return (
-    <SubstrateContextProvider>
-      <Main />
-    </SubstrateContextProvider>
+    <Create/>
   )
 }
