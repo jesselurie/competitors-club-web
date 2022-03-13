@@ -84,37 +84,153 @@ const data = [
   },
 ];
 
+const dataPayouts = [ 
+  {
+    place: 1,
+    payout: 30,
+  },
+  {
+    place: 2,
+    payout: 20,
+  },
+  {
+    place: 3,
+    payout: 1,
+  },
+  {
+    place: 3,
+    payout: 1,
+  }, {
+    place: 3,
+    payout: 1,
+  }, {
+    place: 3,
+    payout: 1,
+  },
+];
+const modalStyle = {
+  width: 675,
+  height: 567,
+  borderRadius:10,
+  backgroundColor:'#1E1E27',
+  fontFamily: 'Montserrat',
+  fontStyle: 'normal',
+  fontWeight: 500,
+  fontSize: 18,
+  color: '#EEEEEE',
+};
+
+const payoutRowStyles = {
+  width: '100%',
+  height: 50,
+  borderRadius:10,
+  backgroundColor:'#1E1E27',
+  fontFamily: 'Montserrat',
+  fontStyle: 'normal',
+  fontWeight: 500,
+  fontSize: 22,
+  color: '#EEEEEE',
+};
+
 export default function Main(props) {
     const contextRef = createRef()  
     const [open, setOpen] = React.useState(false)
-    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedPayoutIndex, setSelectedPayoutIndex] = useState(0);
 
+    const payoutRow = (place,payout,index) => {
+      return (
+      <Table.Row style={payoutRowStyles} onClick={(e)=>{ 
+        //set current index to edit 
+          // setSelectedIndex(index);
+          // setOpen(true);
+        }}>
+        <Table.Cell  textAlign={'left'}> 
+          <ReactSVG 
+             src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
+          />   
+        </Table.Cell>
+        <Table.Cell textAlign={'center'}>{payout}</Table.Cell>
+      </Table.Row>
+      );
+    }
+
+    const PayoutTable = () => (
+      // <div style= {{backgroundColor:'#373747',height: 214, width:544}}>               
+        <Table unstackable fixed singleLine  style= {{backgroundColor:'#373747',height: 214, width:544}}>
+          <Table.Body>
+            {dataPayouts.map((place,index)=>{
+              return payoutRow(place.place,place.payout,index);
+            })}
+          </Table.Body>
+        </Table>
+        //  </div>
+    )
     const PlayerModal = () => {
       return (
         <Modal
+          closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
+          // size={'small'}
+          style={modalStyle}
         >
-          <Modal.Header>Edit Competitor</Modal.Header>
-          <Modal.Content >
-            <Identicon
-            value={data[selectedIndex].accountId}
-            size={36}
-            theme={'polkadot'}/> 
+          <Modal.Content style={{backgroundColor:'#1E1E27'}}>
+            <Grid columns={3}>
+              <Grid.Row verticalAlign='top'>
+                <Grid.Column>
+                  <ReactSVG 
+                    src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
+                  />
+                </Grid.Column>
+                <Grid.Column>
+                  <Identicon
+                    value={data[selectedIndex].accountId}
+                    size={36}
+                    theme={'polkadot'}/>  
+                </Grid.Column>
+                <Grid.Column>
+                  <ReactSVG 
+                      src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
+                    />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row columns={1} >
+                <Grid.Column textAlign='middle'>
+                  Pending
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row columns={2} >
+                <Grid.Column textAlign='middle'>
+                  {data[selectedIndex].accountId}
+                </Grid.Column>
+                <Grid.Column textAlign='right'>
+                <ReactSVG 
+                      src={`${process.env.PUBLIC_URL}/assets/copy-to-clipboard.svg`}
+                    />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column verticalAlign='middle' textAlign='middle'>
+                 {PayoutTable()}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Modal.Content>
-          <Modal.Actions>
-            <Button color='black' onClick={() => setOpen(false)}>
-              Nope
+     
+          <Modal.Actions  style={{backgroundColor:'#1E1E27'}}>
+            <Button color='grey' onClick={() => setOpen(false)}>
+              Cancel
             </Button>
             <Button
-              content="Yep, that's me"
+              content="Done"
               labelPosition='right'
               icon='checkmark'
               onClick={() => setOpen(false)}
-              positive
+              color='red'
             />
-          </Modal.Actions>
+          </Modal.Actions>          
         </Modal>
       )
     }
