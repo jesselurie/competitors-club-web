@@ -1,0 +1,24 @@
+/* .ui.table tr th {
+    border-bottom: 0px !important;
+  } */
+
+
+  tbody {
+    display: block;
+    height: 300px;
+    overflow: auto;
+    /* background-color:'#1E1E27'; */
+  }
+  
+  thead,
+  tbody tr {
+    display: table;
+    width: 346px;
+    table-layout: fixed;
+    /* background-color:'#1E1E27'; */
+  }
+  
+  .sidescroll {
+    overflow-x: scroll;
+  }
+  

@@ -4,6 +4,7 @@ import {
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import Memo from './components/Memo';
+import Players from './components/Players';
 import {useCompetition} from './substrate-lib/useCompetition';
 import { useSubstrate, useSubstrateState } from './substrate-lib';
 
@@ -49,9 +50,10 @@ export default function Main(props) {
 
     return (
         <div ref={contextRef}>
-            <Container style={{backgroundColor:'#11111E',width:'100%'}}>
-              <Memo/>
-            </Container>
+            {/* <Container style={{backgroundColor:'#11111E',width:'100%',height:'300'}}> */}
+              {/* <Memo/> */}
+              <Players/>
+            {/* </Container> */}
         </div>
     )
 }

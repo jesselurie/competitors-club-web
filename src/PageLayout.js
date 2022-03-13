@@ -37,6 +37,7 @@ import Welcome from './components/Welcome';
 // import Menu from './components/Menu';
 // import Sidebar from './components/Sidebar';
 import { SI } from '@polkadot/util/format/si';
+import Topbar from './components/Topbar';
 
 const VerticalSidebar = ({ animation, direction, visible,handleItemClick, activeItem }) => (
   <Sidebar
@@ -98,16 +99,13 @@ function Main() {
     visible: true,
   })
   const { apiState, apiError, keyringState } = useSubstrateState()
-    const [activeItem, setActiveItem] = useState('home');
-    let navigate = useNavigate();
-    let location = useLocation();
-    let params = useParams();
+  const [activeItem, setActiveItem] = useState('home');
+  let navigate = useNavigate();
+  let location = useLocation();
+  let params = useParams();
+  // state = { activeItem: 'home' }
 
-    
-
-    // state = { activeItem: 'home' }
-
-    const handleItemClick = (e, { name }) => { 
+   const handleItemClick = (e, { name }) => { 
       setActiveItem(name);
       navigate("/"+name);
       //Link to the name
@@ -144,67 +142,32 @@ function Main() {
 
   const contextRef = createRef()
   const { animation, dimmed, direction, visible } = state
-  
-  return (
+  const getMenuItem = (name,imageName) => {
+    return <Menu.Item
+      name={name}
+      active={activeItem===name}
+      onClick={handleItemClick}
+    >
+      <Image
+         src={`${process.env.PUBLIC_URL}/assets/` + imageName}
+         size="tiny"
+      />
+    </Menu.Item>
+  };
+  const getMenu = () => {
+    return  <Menu fluid widths={4} style={{backgroundColor:'#11111E'}}>
+    {getMenuItem('home','home.svg')}
+    {getMenuItem('tokens','tokens.svg')}
+    {getMenuItem('trophies','trophy.svg')}
+    {getMenuItem('competitions','dice.svg')}
+  </Menu> 
+  }
 
-  <div ref={contextRef} >
-    <Sticky context={contextRef}>
-      <AccountSelector />
-    </Sticky>
-    <Grid stackable columns="equal">
-      <Grid.Row  stretched >
-            <BlockNumber />
-            <BlockNumber finalized />
-      </Grid.Row>
-    </Grid>
-    <Menu inverted widths={4} style={{backgroundColor:'#11111E'}}>
-          <Menu.Item
-            name='home'
-            active={activeItem === 'home'}
-            onClick={handleItemClick}
-          >
-              <Image
-                  src={`${process.env.PUBLIC_URL}/assets/home.svg`}
-                  size="tiny"
-                  // fluid
-              />
-              
-          </Menu.Item>
-          <Menu.Item
-            name='tokens'
-            active={activeItem === 'tokens'}
-            onClick={handleItemClick}
-          >
-              <Image
-                  src={`${process.env.PUBLIC_URL}/assets/tokens.svg`}
-                  size="tiny"
-                  // fluid
-              />
-          </Menu.Item>
-          <Menu.Item
-            name='trophies'
-            active={activeItem === 'trophies'}
-            onClick={handleItemClick}>
-            <Image
-                  src={`${process.env.PUBLIC_URL}/assets/trophy.svg`}
-                  size="tiny"
-                  // fluid
-            />
-          </Menu.Item>
-          <Menu.Item
-            name='competitions'
-            active={activeItem === 'competitions'}
-            onClick={handleItemClick}
-          >
-              <Image
-                  src={`${process.env.PUBLIC_URL}/assets/dice.svg`}
-                  size="tiny"
-                  // fluid
-              />
-          </Menu.Item>
-        </Menu>
-    <DeveloperConsole />
-  </div> 
+  return (
+    <>
+      <Topbar/>      
+      <DeveloperConsole />
+    </>
   )
 }
 

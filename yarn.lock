@@ -2729,6 +2729,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanem/svg-injector@npm:^10.1.19":
+  version: 10.1.20
+  resolution: "@tanem/svg-injector@npm:10.1.20"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+    content-type: ^1.0.4
+    tslib: ^2.3.1
+  checksum: 044b8791ba06d5c726ab5ff6593dbd4c5e1e98ad69644efc5e7e791716661e3793c8a7df19d7f30286632a386e1635b41fda89cf3d606be2dbff8f61971ebf95
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -2997,6 +3008,13 @@ __metadata:
   version: 2.4.3
   resolution: "@types/prettier@npm:2.4.3"
   checksum: b240434daabac54700c862b0bb52a83fec396e0e9c847447119ba41fd8404d79aadfa174e6306fb094b29efadac586344b7606c3a71c286b71755ab2579d54df
+  languageName: node
+  linkType: hard
+
+"@types/prop-types@npm:^15.7.4":
+  version: 15.7.4
+  resolution: "@types/prop-types@npm:15.7.4"
+  checksum: ef6e1899e59b876c273811b1bd845022fc66d5a3d11cb38a25b6c566b30514ae38fe20a40f67622f362a4f4f7f9224e22d8da101cff3d6e97e11d7b4c307cfc1
   languageName: node
   linkType: hard
 
@@ -4896,7 +4914,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"content-type@npm:~1.0.4":
+"content-type@npm:^1.0.4, content-type@npm:~1.0.4":
   version: 1.0.4
   resolution: "content-type@npm:1.0.4"
   checksum: 3d93585fda985d1554eca5ebd251994327608d2e200978fdbfba21c0c679914d5faf266d17027de44b34a72c7b0745b18584ecccaa7e1fdfb6a68ac7114f12e0
@@ -11626,6 +11644,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-svg@npm:^14.1.14":
+  version: 14.1.14
+  resolution: "react-svg@npm:14.1.14"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+    "@tanem/svg-injector": ^10.1.19
+    "@types/prop-types": ^15.7.4
+    prop-types: ^15.8.1
+  peerDependencies:
+    react: ^15.5.4 || ^16.0.0 || ^17.0.0
+    react-dom: ^15.5.4 || ^16.0.0 || ^17.0.0
+  checksum: e6375170ea345f46851eb0e60924fe64d52b290bd7a896e9507887b40c83d1f66d46dfc54d2d31d4e34fc6c28370f57b6746ced3b95940bdc8d00d84cdc9bd36
+  languageName: node
+  linkType: hard
+
 "react@npm:^17.0.2":
   version: 17.0.2
   resolution: "react@npm:17.0.2"
@@ -12883,6 +12916,7 @@ resolve@^2.0.0-next.3:
     react-dom: ^17.0.2
     react-router-dom: 6
     react-scripts: ^5.0.0
+    react-svg: ^14.1.14
     semantic-ui-css: "Semantic-Org/Semantic-UI-CSS#master"
     semantic-ui-react: ^2.1.2
     semistandard: ^16.0.1
@@ -13289,7 +13323,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9

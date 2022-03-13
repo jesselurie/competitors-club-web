@@ -9,9 +9,12 @@ import {
   Icon,
   Image,
   Label,
+  Header
 } from 'semantic-ui-react'
 
-import { useSubstrate, useSubstrateState } from './substrate-lib'
+import { useSubstrate, useSubstrateState } from '../substrate-lib'
+import useBlockNumber from './Blocknumber'
+// import BlockNumber from './Blocknumber'
 
 const CHROME_EXT_URL =
   'https://chrome.google.com/webstore/detail/polkadot%7Bjs%7D-extension/mopnmbcafieddcagagdcbnhejhlodfdd'
@@ -48,64 +51,73 @@ function Main(props) {
   const onChange = addr => {
     setCurrentAccount(keyring.getPair(addr))
   }
-
+  const [blocknumber] = useBlockNumber({finalized:true})
+ 
+  const blocknumberStyles = {
+    backgroundColor: '#11111E',
+    borderColor: '#11111E',
+    paddingTop: '1em',
+    paddingBottom: '1em',
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 20,
+    color:'#213830',
+  };
+  const fixedMenuStyle = {
+    backgroundColor: '#11111E',
+    // border: '1px solid #ddd',
+    // boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
+  }
   return (
     <Menu
-      attached="top"
-      tabular
-      style={{
-        backgroundColor: '#11111E',
-        borderColor: '#11111E',
-        // paddingTop: '1em',
-        // paddingBottom: '1em',
-      }}
-    >
-      {/* <Container> */}
-        {/* <Menu.Menu> */}
-          {/* <Image
-            src={`${process.env.PUBLIC_URL}/assets/cclub-logo-horizontal.png`}
-            size="small"
-            // fluid
-          /> */}
-        {/* </Menu.Menu> */}
-        <Menu.Menu position="right" style={{ alignItems: 'center' }}>
-          {!currentAccount ? (
-            <span>
-              Create an account with Polkadot-JS Extension (
-              <a target="_blank" rel="noreferrer" href={CHROME_EXT_URL}>
-                Chromee
-              </a>
-              ,&nbsp;
-              <a target="_blank" rel="noreferrer" href={FIREFOX_ADDON_URL}>
-                Firefox
-              </a>
-              )&nbsp;
-            </span>
-          ) : null}
-          <CopyToClipboard text={acctAddr(currentAccount)}>
-            <Button
-              basic
-              circular
-              size="large"
-              icon="user"
-              color={currentAccount ? 'green' : 'red'}
-            />
-          </CopyToClipboard>
-          <Dropdown
-            search
-            selection
-            clearable
-            placeholder="Switch Account"
-            options={keyringOptions}
-            onChange={(_, dropdown) => {
-              onChange(dropdown.value)
-            }}
-            value={acctAddr(currentAccount)}
-            style={{backgroundColor:'#11111E',color: '#EEEEEE', fontFamily: 'Montserrat',fontWeight: 'medium',fontSize: 14}}
+    attached="top"
+    tabular
+    fluid
+    stackable
+    style={fixedMenuStyle}>
+
+    <Menu.Menu position="left" style={{ alignItems: 'center' }}>
+    <Image size='medium'src={`${process.env.PUBLIC_URL}/assets/cclub-logo-horizontal.png`} />
+        <p style={blocknumberStyles}># {blocknumber}</p>
+    </Menu.Menu>
+      <Menu.Menu position="right" style={{ alignItems: 'center' }}>
+        {!currentAccount ? (
+          <span>
+            Create an account with Polkadot-JS Extension (
+            <a target="_blank" rel="noreferrer" href={CHROME_EXT_URL}>
+              Chrome
+            </a>
+            ,&nbsp;
+            <a target="_blank" rel="noreferrer" href={FIREFOX_ADDON_URL}>
+              Firefox
+            </a>
+            )&nbsp;
+          </span>
+        ) : null}
+        <CopyToClipboard text={acctAddr(currentAccount)}>
+          <Button
+            basic
+            circular
+            size="large"
+            icon="user"
+            color={currentAccount ? 'green' : 'red'}
           />
-          {/* <BalanceAnnotation /> */}
-        </Menu.Menu>
-      {/* </Container> */}
+        </CopyToClipboard>
+        <Dropdown
+          search
+          selection
+          clearable
+          placeholder="Switch Account"
+          options={keyringOptions}
+          onChange={(_, dropdown) => {
+            onChange(dropdown.value)
+          }}
+          value={acctAddr(currentAccount)}
+          style={{backgroundColor:'#11111E',color: '#EEEEEE', fontFamily: 'Montserrat',fontWeight: 'medium',fontSize: 14}}
+        />
+        <BalanceAnnotation />
+      </Menu.Menu>
     </Menu>
   )
 }
