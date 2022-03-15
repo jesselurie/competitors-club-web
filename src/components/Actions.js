@@ -43,31 +43,101 @@ const styles = {
     }
 };
 
+export function FinisheButton(props) {
+    const contextRef = createRef()
+    return (
+    <div ref={contextRef}>            
+       <Grid>
+        <Grid.Row columns={2}>
+            <Grid.Column textAlign='center'  >
+                <Button color="#2B2B35">Force Quit</Button>
+            </Grid.Column>
+            <Grid.Column textAlign='center'>
+                <Button color="red">Finish</Button>
+            </Grid.Column>
+        </Grid.Row>
+    </Grid>
+    </div>
+    )
+}
+
 export function CreateButton(props) {
     const contextRef = createRef()
     return (
     <div ref={contextRef}>            
-        <Button color="red">Create A Competition</Button>    
+        <Button color="red">Start</Button>    
     </div>
+    )
+}
+
+
+export function JoinButtons(props) {
+    const contextRef = createRef()
+    return (
+               
+        <div ref={contextRef}>
+                <Grid>
+                    <Grid.Row columns={2}>
+                        <Grid.Column textAlign='center' width={2} >
+                            <Button color="#2B2B35">Deny</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center' width={2}>
+                            <Button color="red">Join</Button>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </div>
     )
 }
 
 export default function Main(props) {
     const contextRef = createRef()
-    return (
-    <div ref={contextRef}>
-        {/* <Container> */}
-            <Grid>
-                <Grid.Row columns={2}>
-                    <Grid.Column textAlign='center' width={2} >
-                        <Button color="#2B2B35">Deny</Button>
-                    </Grid.Column>
-                    <Grid.Column textAlign='center' width={2}>
-                        <Button color="red">Accept</Button>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        {/* </Container> */}
-    </div>
-    )
+    const {action} = props
+    if(action == 'start') {
+        return (
+            <div ref={contextRef}>
+             <CreateButton/>
+            </div>
+        )
+    }
+    if (action =='join') {
+        return (
+            <div ref={contextRef}>
+                <Grid>
+                    <Grid.Row columns={2}>
+                        <Grid.Column textAlign='center' width={2} >
+                            <Button color="#2B2B35">Deny</Button>
+                        </Grid.Column>
+                        <Grid.Column textAlign='center' width={2}>
+                            <Button color="red">Join</Button>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </div>
+        )
+    }
+    if (action =='finish') {
+        return(
+            <div ref={contextRef}>
+                <FinisheButton/>
+            </div>
+        )
+    }
+
+    // return (
+    // <div ref={contextRef}>
+    //     {/* <Container> */}
+    //         <Grid>
+    //             <Grid.Row columns={2}>
+    //                 <Grid.Column textAlign='center' width={2} >
+    //                     <Button color="#2B2B35">Deny</Button>
+    //                 </Grid.Column>
+    //                 <Grid.Column textAlign='center' width={2}>
+    //                     <Button color="red">Accept</Button>
+    //                 </Grid.Column>
+    //             </Grid.Row>
+    //         </Grid>
+    //     {/* </Container> */}
+    // </div>
+    // )
 }

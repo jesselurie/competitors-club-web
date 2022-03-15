@@ -13,7 +13,7 @@ import {
     Table,
     Label,
     Menu,
-    Sticky, Input, Segment
+    Sticky, Input
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 // import styled from 'styled-components';
@@ -120,10 +120,8 @@ const newPlayerModalStyle = {
   color: '#EEEEEE',
 };
 const modalStyle = {
-  // width: 675,
-  // height: 567,
-  // width: 400,
-  // height: 567,
+  width: 675,
+  height: 567,
   borderRadius:10,
   backgroundColor:'#1E1E27',
   fontFamily: 'Montserrat',
@@ -134,8 +132,8 @@ const modalStyle = {
 };
 
 const payoutRowStyles = {
-  // width: '100%',
-  // height: 50,
+  width: '100%',
+  height: 50,
   borderRadius:10,
   backgroundColor:'#1E1E27',
   fontFamily: 'Montserrat',
@@ -160,34 +158,6 @@ export default function Main(props) {
     const [selectedPayoutIndex, setSelectedPayoutIndex] = useState(0);
     const [openNewPlayerModal, setOpenNewPlayerModal] = React.useState(false)
 
-    const payoutRow = (place,payout,index) => {
-      return (
-      <Table.Row style={payoutRowStyles} onClick={(e)=>{ 
-        //set current index to edit 
-          // setSelectedIndex(index);
-          // setOpen(true);
-        }}>
-        <Table.Cell  textAlign={'left'}> 
-          <ReactSVG 
-             src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
-          />   
-        </Table.Cell>
-        <Table.Cell textAlign={'center'}>{payout}</Table.Cell>
-      </Table.Row>
-      );
-    }
-
-    const PayoutTable = () => (
-      // <div style= {{backgroundColor:'#373747',height: 214, width:544}}>          <Table  stackable fixed singleLine  style= {{backgroundColor:'#373747',height: 214, width:544}}>             
-        <Table unstackable>
-          <Table.Body>
-            {dataPayouts.map((place,index)=>{
-              return payoutRow(place.place,place.payout,index);
-            })}
-          </Table.Body>
-        </Table>
-        //  </div>
-    )
 
     const NewPlayerModal = () => {
       return (
@@ -200,17 +170,17 @@ export default function Main(props) {
           style={newPlayerModalStyle}
         >
           <Modal.Content style={{backgroundColor:'#1E1E27'}}>
-             <Grid>
+          <Grid>
                 <Grid.Row >
                     <Grid.Column textAlign='center'>
-                     New Competitor
+                     New Payout
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row verticalAlign='center' >
                   <Grid.Column textAlign='middle'>
-                  <Input iconPosition='left' placeholder='Account Id'>
+                  <Input iconPosition='left' placeholder='Place'>
                     <ReactSVG 
-                          src={`${process.env.PUBLIC_URL}/assets/user-icon.svg`}
+                          src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
                     />
                     <input />
                   </Input>
@@ -218,27 +188,16 @@ export default function Main(props) {
                 </Grid.Row>
                 <Grid.Row verticalAlign='center' >
                   <Grid.Column textAlign='middle'>
-                  <Input iconPosition='left' placeholder='Nickname'>
+                  <Input iconPosition='left' placeholder='Payout'>
                     <ReactSVG 
-                          src={`${process.env.PUBLIC_URL}/assets/user-icon.svg`}
+                          src={`${process.env.PUBLIC_URL}/assets/cclub-red.svg`}
                     />
                     <input />
                   </Input>
                   </Grid.Column>
                 </Grid.Row>
-                <Grid.Row verticalAlign='center'>
-                  <Grid.Column width={2}>
-                    <ReactSVG 
-                          src={`${process.env.PUBLIC_URL}/assets/add-icon.svg`}
-                    /> 
-                  </Grid.Column>
-                  <Grid.Column width={12}>
-                    <p style={addFromAddressBook}>Add From Address Book</p>
-                  </Grid.Column>
-                </Grid.Row>
               </Grid>
           </Modal.Content>
-     
           <Modal.Actions  style={{backgroundColor:'#1E1E27'}}>
             <Button color='grey' onClick={() => setOpenNewPlayerModal(false)}>
               Cancel
@@ -258,83 +217,49 @@ export default function Main(props) {
     const PlayerModal = () => {
       return (
         <Modal
-          closeIcon={{ style: {color:'#2B2B35' }, name: 'close' }}
+          closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
-          size={'small'}
+          // size={'small'}
           style={modalStyle}
         >
-          {/* <Modal.Header>
-          
-                <Header as='h3' textAlign='right'>
-                <ReactSVG 
-                        src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
-                      />
-                </Header>
-                <Header as='h3' textAlign='center'>
-                <Identicon
-                      value={data[selectedIndex].accountId}
-                      size={36}
-                      theme={'polkadot'}/>  
-                </Header>
-                <Header.Subheader as='h3' textAlign='justified'>
-                {data[selectedIndex].accountId}
-                <ReactSVG 
-                      src={`${process.env.PUBLIC_URL}/assets/copy-to-clipboard.svg`}
-                    />
-                </Header.Subheader>
-                <Header as='h3' textAlign='center'>
-                Pending
-                </Header>
-              
-          </Modal.Header> */}
           <Modal.Content style={{backgroundColor:'#1E1E27'}}>
-            <Grid>
-              <Grid.Row columns={3} verticalAlign={'top'}> 
-                <Grid.Column textAlign='right'>
-                  <ReactSVG 
-                    src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
-                  />
-                </Grid.Column>
-                <Grid.Column textAlign='middle'>
-                  <Identicon
-                    value={data[selectedIndex].accountId}
-                    size={36}
-                    theme={'polkadot'}/>  
-                </Grid.Column>
-                <Grid.Column  textAlign='middle'>
+             <Grid>
+                <Grid.Row >
+                    <Grid.Column textAlign='center'>
+                     Edit Payout
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                <Grid.Column textAlign='center'>
                   <ReactSVG 
                       src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
                     />
                 </Grid.Column>
-              </Grid.Row> 
-             <Grid.Row verticalAlign='middle'>
-                <Grid.Column textAlign='center' >
-                  Pending
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row verticalAlign='middle'>
-                <Grid.Column width={12}textAlign='center' >
-                  <p style={{"word-break":"break-all"}}>{data[selectedIndex].accountId}</p>
-                </Grid.Column>
-                 <Grid.Column width={4} >
-                <ReactSVG 
-                      src={`${process.env.PUBLIC_URL}/assets/copy-to-clipboard.svg`}
+                </Grid.Row>
+                <Grid.Row verticalAlign='center' >
+                  
+                  <Grid.Column textAlign='middle'>
+                  <Input iconPosition='left' placeholder={dataPayouts[selectedIndex].place}>
+                    <ReactSVG 
+                          src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
                     />
-                </Grid.Column>
-              </Grid.Row> 
-              <Grid.Row>
-                <Grid.Column textAlign='center'> 
-                  Set a Place
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                 {PayoutTable()}
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+                    <input />
+                  </Input>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row verticalAlign='center' >
+                  <Grid.Column textAlign='middle'>
+                  <Input iconPosition='left'  placeholder={dataPayouts[selectedIndex].payout}>
+                    <ReactSVG 
+                          src={`${process.env.PUBLIC_URL}/assets/cclub-red.svg`}
+                    />
+                    <input />
+                  </Input>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
           </Modal.Content>
      
           <Modal.Actions  style={{backgroundColor:'#1E1E27'}}>
@@ -353,59 +278,51 @@ export default function Main(props) {
       )
     }
     
-    const row = (accountId,username,isPending,index) => {
+    const row = (payout,place,index) => {
       return (
       <Table.Row style={rowStyles} onClick={(e)=>{ 
         //set current index to edit 
           setSelectedIndex(index);
           setOpen(true);
         }}>
-        <Table.Cell  textAlign={'left'} onClick={(e)=>{console.log('clicked icon for copying: ',index)}}> 
-          <Identicon
-          value={accountId}
-          size={36}
-          theme={'polkadot'}/>     
+        <Table.Cell width={4} onClick={(e)=>{console.log('clicked icon for copying: ',index)}}> 
+          {place}
         </Table.Cell>
-        <Table.Cell textAlign={'center'} onClick={(e)=>{console.log('clicked username for editing:', index)}}>{username}</Table.Cell>
-        <Table.Cell  textAlign={'right'} onClick={(e)=>{console.log('clicked the ribbon for placing: ',index)}}>
-          <ReactSVG 
-             src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
-          />
-           {isPending? (<p style={pendingStyle}>Pending</p>): <p style={joinedStyle}>Joined</p>} 
-        </Table.Cell>
+        <Table.Cell width={4}  textAlign={'center'} onClick={(e)=>{console.log('clicked username for editing:', index)}}>{payout}</Table.Cell>
+        
       </Table.Row>
       );
     }
     
     const TableExamplePagination = () => (
-      // <div style= {{backgroundColor:'#1E1E27',height: 343, width:350}}>       
-      // style= {{backgroundColor:'#1E1E27',height: 343, width:350}}        
-      //  <Container>
+      // <div style= {{backgroundColor:'#1E1E27',height: 343, width:350}}>    
+      // style= {{backgroundColor:'#1E1E27',height: 343, width:350}}          //  
+       <Container >
         <Table  unstackable fixed singleLine role="grid" aria-labelledby="header">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell textAlign={'left'} onClick={(e)=>{console.log('clicked the filter')}} colSpan="3" id="header"> 
+            <Table.HeaderCell textAlign={'left'} onClick={(e)=>{setOpenNewPlayerModal(true)}} colSpan="3" id="header"> 
               <ReactSVG 
-                src={`${process.env.PUBLIC_URL}/assets/filter.svg`}
+                src={`${process.env.PUBLIC_URL}/assets/add-icon.svg`}
               />
               </Table.HeaderCell>
-             <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>  Players </Table.HeaderCell>
-            <Table.HeaderCell  colSpan="3" id="header" textAlign={'right'} onClick={(e)=>{setOpenNewPlayerModal(true)}}>
+             <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>  Payouts </Table.HeaderCell>
+            <Table.HeaderCell  colSpan="3" id="header" textAlign={'right'} onClick={(e)=>{console.log('clicked filter')}}>
                 <ReactSVG 
-                  src={`${process.env.PUBLIC_URL}/assets/add-item.svg`}
+                  src={`${process.env.PUBLIC_URL}/assets/filter.svg`}
                 />
             </Table.HeaderCell> 
           </Table.Row>
           
         </Table.Header>
           <Table.Body>
-            {data.map((player,index)=>{
-              return row(player.accountId,player.username,player.isPending,index);
+            {dataPayouts.map(({payout,place},index)=>{
+              return row(payout,place,index);
             })}
           </Table.Body>
           
         </Table>
-        // </Container>
+        </Container>
         //  </div>
     )
     return (

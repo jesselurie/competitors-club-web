@@ -1,10 +1,16 @@
 import React, { createRef, useEffect } from 'react'
 import {
-    Container
+    Container, Grid
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import Memo from './components/Memo';
-import Players from './components/Players';
+// import Memo from './components/Memo';
+import Players from './components/Players'
+import EntryFee from './components/EntryFee'
+import Memo from './components/Memo'
+import Trophy from './components/Trophy'
+import Payouts from './components/Payouts'
+import Chat from './components/Chat'
+import Actions from './components/Actions';
 import {useCompetition} from './substrate-lib/useCompetition';
 import { useSubstrate, useSubstrateState } from './substrate-lib';
 
@@ -50,10 +56,31 @@ export default function Main(props) {
 
     return (
         <div ref={contextRef}>
-            {/* <Container style={{backgroundColor:'#11111E',width:'100%',height:'300'}}> */}
-              {/* <Memo/> */}
-              <Players/>
-            {/* </Container> */}
+            <Grid stackable celled columns='equal' style={{backgroundColor:'#1E1E27'}}>
+                <Grid.Row columns={5}>
+                    <Grid.Column >
+                        <Players/>    
+                    </Grid.Column>
+                    <Grid.Column >
+                        <EntryFee entryFee={10}/>   
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Trophy/> 
+                        <Memo memo={'THIS STRING IS 256 CHARACTERS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}/>  
+                    </Grid.Column>
+                    <Grid.Column>
+                       <Actions action={'start'}/>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Payouts/>
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Chat/>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         </div>
     )
 }

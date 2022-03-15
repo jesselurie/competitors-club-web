@@ -6,7 +6,9 @@ import {
   Grid,
   Sticky,
   Message,
-  Button
+  Button,
+  Modal,
+  TextArea
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 /**
@@ -23,53 +25,79 @@ const styles = {
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 14,
-        letterSpacing: 0.02,
-        textTransform: 'uppercase',
+        // letterSpacing: 0.02,
+        // textTransform: 'uppercase',
         wordBreak:"break-all",
     },
-    stake: {
-        color: '#A01C0E',
+    memoModalTitle: {
+        color: '#EEEEEE',
         fontFamily: 'Montserrat',
         fontStyle: 'normal',
-        fontWeight: 'bold',
-        fontSize: 36,
-        letterSpacing: 0.02,
-    },
-    totalStake: {
-        color: 'rgba(238, 238, 238, 0.6)',
-        fontFamily: 'Montserrat',
-        fontStyle: 'italic',
-        fontWeight: '600',
-        fontSize: 23,
-        letterSpacing: 0.02,
+        fontWeight: '700',
+        fontSize: 22,
     }
+  
 };
 
 //Create a new memo or render an existing memo. 
 export default function Main(props) {
     const contextRef = createRef()
-    const {memo,stake,totalStake,isNew} = props;
+    const [open, setOpen] = React.useState(false)
+    const {memo} = props;
+
+    const MemoModal = () => {
+        return (
+          <Modal
+            closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            open={open}
+            // size={'small'}
+            style={styles.modalStyle}
+          >
+            <Modal.Content style={{backgroundColor:'#1E1E27'}}>
+              <Grid stretched>
+                <Grid.Row verticalAlign='top'>
+                    <Grid.Column textAlign='center'>
+                        <h1 style={styles.memoModalTitle}>Memo</h1>
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column >
+                    <TextArea placeholder={memo} style={styles.memo} rows={6}/>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Modal.Content>
+       
+            <Modal.Actions  style={{backgroundColor:'#1E1E27'}}>
+              <Button color='grey' onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                content="Done"
+                labelPosition='right'
+                icon='checkmark'
+                onClick={() => setOpen(false)}
+                color='red'
+              />
+            </Modal.Actions>          
+          </Modal>
+        )
+      }
     return (
     <div ref={contextRef}>
-        <Container>
-            <Grid>
+        <MemoModal/>
+        <Container style= {{backgroundColor:'#1E1E27',height: 178, width:588}}>
+            <Grid >
                 <Grid.Row columns={2}>
-                    <Grid.Column width={12}>
+                    <Grid.Column textAlign='right' width={12}>
                         <p style={styles.memo}>
                             {memo}
                         </p>
                     </Grid.Column>
                     <Grid.Column textAlign='left' width={4}>
-                        <h1 style={styles.stake}>
-                            {stake}
-                       </h1>
-                    </Grid.Column>
-                </Grid.Row>
-                <Grid.Row columns={1}>
-                    <Grid.Column>
-                        <p style={styles.totalStake}>
-                            {totalStake} CCLUB Total Stake In This Competition
-                        </p>
+                        <Button style={styles.edit} size={'mini'} onClick={(e)=>{setOpen(true)}}>Edit</Button>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
