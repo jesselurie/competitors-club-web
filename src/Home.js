@@ -20,6 +20,7 @@ import { onboardingSelector} from './redux/orm/selectors';
 import { createUser } from './redux/orm/models';
 import {selectAccount} from './redux/reducers/selectedAccountReducer';
 import {setCurrentGameVieId} from  './redux/reducers/currentGameVieIdReducer';
+import { useReduxState } from './modules'
 
 const styles = {
    title: {
@@ -34,9 +35,12 @@ const styles = {
   
 export default function Main(props) {
     const dispatch = useDispatch();
-    const [competitor,vie,wins,accountData,isOperator] = useCompetition();
-    const { keyringState,apiState} = useSubstrateState();
-    const {state: { keyring, currentAccount }} = useSubstrate();
+    const [account,selectedGame] = useReduxState();
+    // console.log("account: ",account);
+    // console.log("selectedGame: ",selectedGame)
+    // const [competitor,vie,wins,accountData,isOperator] = useCompetition();
+    // const { keyringState,apiState} = useSubstrateState();
+    // const {state: { keyring, currentAccount }} = useSubstrate();
     // const username = useSelector(state => state.selectedAccount);
     // const account = useSelector(state => accountSelector(username)(state));      
     // const onboarding = useSelector(state=>onboardingSelector(state));
@@ -46,15 +50,15 @@ export default function Main(props) {
     
     const contextRef = createRef()
     
-    useEffect(()=>{
-        if (keyringState == 'READY' && apiState == 'READY') {
-            console.log(competitor,vie,wins,accountData, isOperator);
-            console.log('CURRENT ACCOUNT: ', currentAccount.address);
-            dispatch(createUser(currentAccount.address,"12/34/56"));
-            dispatch(selectAccount(currentAccount.address));
-            dispatch(setCurrentGameVieId("0x00000000000000000000000000000000"));
-        }
-    },[currentAccount]);
+    // useEffect(()=>{
+    //     if (keyringState == 'READY' && apiState == 'READY') {
+    //         console.log(competitor,vie,wins,accountData, isOperator);
+    //         console.log('CURRENT ACCOUNT: ', currentAccount.address);
+    //         dispatch(createUser(currentAccount.address,"12/34/56"));
+    //         dispatch(selectAccount(currentAccount.address));
+    //         dispatch(setCurrentGameVieId("0x00000000000000000000000000000000"));
+    //     }
+    // },[currentAccount]);
 
     return (
         <div ref={contextRef}>

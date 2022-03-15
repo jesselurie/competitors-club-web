@@ -8,7 +8,6 @@ import { useSubstrate, useSubstrateState } from '../substrate-lib';
 import {importGame} from '../redux/orm/models';
 import {setCurrentGameVieId} from '../redux/reducers/currentGameVieIdReducer';
 
-
 // --- COMPETE ---
 //       CREATE GAME 
 //       FINISH GAME 
@@ -22,10 +21,16 @@ import {setCurrentGameVieId} from '../redux/reducers/currentGameVieIdReducer';
 //             - Invited to a game 
 //             - Waiting for everyone to accept 
 //             - Waiting for operator to finish
+export const useReduxState = (props) => {
+    const username = useSelector(state => state.selectedAccount);
+    const selectedGame = useSelector(state=>state.isNewOrOperatorOrCompetitor);
+    const account = useSelector(state => accountSelector(username)(state)); 
+    return [account,selectedGame];
+}
 
 export const useLiveData = (props) => {
     const username = useSelector(state => state.selectedAccount);
-    const selectedGame = useSelector(state=>state.isNewOrOperatorOrCompetitor);
+    // const selectedGame = useSelector(state=>state.isNewOrOperatorOrCompetitor);
     const dispatch = useDispatch();    
     const account = useSelector(state => accountSelector(username)(state));  
     const {state: { keyring, currentAccount }} = useSubstrate();
@@ -35,7 +40,7 @@ export const useLiveData = (props) => {
     const queryOperator = async () => {
         try {
             const nullVieId = "0x00000000000000000000000000000000";
-            const vie_id = await api.query.vies.operators(account.username);
+            const vie_id = await api.query.vies.operators(currentAccount.address);
             if (vie_id != nullVieId)  {
                 dispatch(setIsNewOrOperatorOrCompetitor(1));
                 return true;
@@ -49,7 +54,7 @@ export const useLiveData = (props) => {
     const queryCompetitor = async () => {
         const nullComp = {"staked": false, "submitted_winner": false, "vie_id": "0x00000000000000000000000000000000"};
         try {
-            const result = await api.query.vies.competitors(account.username);
+            const result = await api.query.vies.competitors(currentAccount.address);
             if (result.vie_id != "0x00000000000000000000000000000000"){
                 // console.log(result);
                 dispatch(setIsNewOrOperatorOrCompetitor(2));
@@ -62,10 +67,9 @@ export const useLiveData = (props) => {
         }
     }
 
-
     const queryCompetitorNoDispatch = async () => {
         try {
-            const result = await api.query.vies.competitors(account.username);
+            const result = await api.query.vies.competitors(currentAccount.address);
             return JSON.parse(result.toString());
         }catch(err){
             alert(err);
@@ -84,7 +88,7 @@ export const useLiveData = (props) => {
 
     const queryAccountData = async () => {
         try {
-            const accountData = await api.query.system.account(account.username);
+            const accountData = await api.query.system.account(currentAccount.address);
             return JSON.parse(accountData.toString());
         }catch(err){
             // console.log("ERROR: ",err);
@@ -94,7 +98,7 @@ export const useLiveData = (props) => {
 
     const queryWins = async () => {
         try {
-            const wins = await api.query.nft.tokensByOwner.entries(account.username);
+            const wins = await api.query.nft.tokensByOwner.entries(currentAccount.address);
             return wins.map((t,i)=>{
                 return t[0].toHuman();
             });
@@ -145,27 +149,26 @@ export const useLiveData = (props) => {
         
 
         if (trophiesData.length != 0){
-            dispatch(putTrophiesData(account.username,trophiesData));
+            dispatch(putTrophiesData(currentAccount.address,trophiesData));
         }
       
-        dispatch(putCompetitorData(account.username,competitor));  
-        dispatch(putGameData(account.username,vie));
-        dispatch(importGame(competitor.vie_id,account.username,vie));
+        dispatch(putCompetitorData(currentAccount.address,competitor));  
+        dispatch(putGameData(currentAccount.address,vie));
+        dispatch(importGame(competitor.vie_id,currentAccount.address,vie));
         //SET THE CURRENT VIE ID TO THE IMPORTED ID 
         dispatch(setCurrentGameVieId(competitor.vie_id));
-        // dispatch(putAccountData(account.username,accountData));
-        dispatch(addAccountInfo(accountData,account.username));
+        dispatch(putAccountData(currentAccount.address,accountData));
+        dispatch(addAccountInfo(accountData,currentAccount.address));
         setLiveData(true);
     };
 
 
     useEffect(()=> {
-        // console.log(account.gameData)
-        if (keyringState == 'READY' && apiState == 'READY') {
+        if (keyringState == 'READY' && apiState == 'READY' && currentAccount?.address != null) {
             console.log('here');
             reload();  
         }else {
-            // alert('Pull to refresh.')
+            
         }
         return () => {
           

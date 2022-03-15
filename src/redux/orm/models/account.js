@@ -171,64 +171,7 @@ export class Account extends Model {
                     // accountData: {"consumers": 1, "data": {"feeFrozen": 0, "free": "0x00000000000000000000000000000000", "miscFrozen": "0x00000000000000000000000000000000", "reserved": 0}, "nonce": 0, "providers": 1},
                 });
                 
-                // const ai = session.AccountInfo.upsert({
-                //     consumers: 1,
-                //     data: {
-                //       feeFrozen: 0,
-                //       free: "0x00000000000000000000000000000000",
-                //       miscFrozen: "0x00000000000000000000000000000000",
-                //       reserved: 0
-                //     },
-                //     nonce: 0,
-                //     providers: 1,
-                //     accountId:username,
-                //   });
-
-                //   const ci = session.CompetitorInfo.upsert({
-                //     vieId,
-                //     staked: false,
-                //     submitted_winner: false,
-                //     accountId:username,
-                //   });
-                
-                //   const g = session.Game.upsert({
-                //     vieId,
-                //     operator:null,
-                //     stake:1,
-                //     date:null,
-                //     memo:null,
-                //     accountId:username,
-                //   });
-                  
-                //   !session.Place.exists({
-                //     vieId:"0x00000000000000000000000000000000",
-                //     spot:1,
-                //     payout:2,
-                //     }) && session.Place.create({
-                //     spot:1,
-                //     payout:2,
-                //     vieId:"0x00000000000000000000000000000000",
-                //   });
-                //   !session.Competitor.exists({
-                //     vieId,  
-                //     accountId: "16kbGUmwe6xmxrZGg1i5me3RPHkZtbyRCkkgUNVS1pczzTJe",
-                //     })&&session.Competitor.create({
-                //     accountId: "16kbGUmwe6xmxrZGg1i5me3RPHkZtbyRCkkgUNVS1pczzTJe",
-                //     staked: false,
-                //     submittedWinner:false,
-                //     vieId,  
-                //   });
-                //   const ts = session.Trophies.create({
-                //     classId: null,
-                //     tokenId: null,
-                //     accountId:username,
-                //   });
-                //   const t = session.Trophy.create({
-                //     data: null,
-                //     metadata:null,
-                //     owner: null,
-                //     accountId:username,
-                //   });
+              
                 break;
             }
             case CREATE_USER: {
@@ -242,64 +185,6 @@ export class Account extends Model {
                     gameData: {"competitors": [], "date": 0, "memo": "0x", "operator": "111111111111111111111111111111111HC1", "podium": [], "stake": 0},
                     // accountData: {"consumers": 1, "data": {"feeFrozen": 0, "free": "0x00000000000000000000000000000000", "miscFrozen": "0x00000000000000000000000000000000", "reserved": 0}, "nonce": 0, "providers": 1},
                 });
-                // const ai = session.AccountInfo.upsert({
-                //     consumers: 1,
-                //     data: {
-                //       feeFrozen: 0,
-                //       free: "0x00000000000000000000000000000000",
-                //       miscFrozen: "0x00000000000000000000000000000000",
-                //       reserved: 0
-                //     },
-                //     nonce: 0,
-                //     providers: 1,
-                //     accountId:username,
-                //   });
-                //   const ci = session.CompetitorInfo.create({
-                //     staked: false,
-                //     submitted_winner: false,
-                //     vieId,
-                //     accountId:username,
-                //   });
-                //   const ts = session.Trophies.create({
-                //     classId: null,
-                //     tokenId: null,
-                //     accountId:username,
-                //   });
-                //   const t = session.Trophy.create({
-                //     data: null,
-                //     metadata:null,
-                //     owner: null,
-                //     accountId:username,
-                //   });
-                //   const v = session.Vie.create({
-                //     vieId:"0x00000000000000000000000000000000",
-                //     operator:null,
-                //     stake:null,
-                //     podium:null,
-                //     date:null,
-                //     competitors:null,
-                //     memo:"Rock Paper Scissors",
-                //     accountId:username,
-                //   });
-                //   const g = session.Game.create({
-                //     vieId,
-                //     operator:null,
-                //     stake:1,
-                //     date:null,
-                //     memo:"Rock Paper Scissors",
-                //     accountId:username,
-                //   });
-                //   const p = session.Place.create({
-                //     vieId,
-                //     spot:1,
-                //     payout:2,
-                //   });
-                //   const cc = session.Competitor.create({
-                //     accountId: "16kbGUmwe6xmxrZGg1i5me3RPHkZtbyRCkkgUNVS1pczzTJe",
-                //     staked: false,
-                //     submittedWinner:false,
-                //     vieId,
-                //   });
                 break;
             }
             case PUT_ACCOUNT_DATA: {

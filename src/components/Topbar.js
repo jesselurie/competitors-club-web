@@ -14,6 +14,7 @@ import {
 
 import { useSubstrate, useSubstrateState } from '../substrate-lib'
 import useBlockNumber from './Blocknumber'
+import { ReactSVG } from 'react-svg'
 // import BlockNumber from './Blocknumber'
 
 const CHROME_EXT_URL =
@@ -143,8 +144,11 @@ function BalanceAnnotation(props) {
   }, [api, currentAccount])
 
   return currentAccount ? (
-    <Label pointing="left">
-      <Icon name="money" color="green" />
+    <Label pointing="left" color='black'>
+        {/* <ReactSVG 
+                          src={`${process.env.PUBLIC_URL}/assets/cclub-white.svg`}
+                    /> */}
+      {/* <Icon name="money" color="green" /> */}
       {accountBalance}
     </Label>
   ) : null

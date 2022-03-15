@@ -13,17 +13,21 @@ import { Provider } from 'react-redux';
 import {PersistGate } from 'redux-persist/lib/integration/react';
 import store, {persistor} from './redux/store';
 import Topbar from './components/Topbar';
-import { useLiveData } from './modules';
+import { useLiveData, useReduxState } from './modules';
 import { useSelector} from 'react-redux';
 import { accountSelector } from './redux/orm/selectors';
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
   const [liveData] = useLiveData();
-  const username = useSelector(state => state.selectedAccount);
-  const account = useSelector(state => accountSelector(username)(state));  
-  
-  console.log('account: ',account);
+  // const [account, selectedGame] = useReduxState();
+
+  // const username = useSelector(state => state.selectedAccount);
+  // const account = useSelector(state => accountSelector(username)(state));  
+  // const selectedGame = useSelector(state=>state.isNewOrOperatorOrCompetitor);
+  // console.log('account: ',account);
+  // console.log('selectedGame: ',selectedGame);
+
   const loader = text => (
     <Dimmer active>
       <Loader size="small">{text}</Loader>
