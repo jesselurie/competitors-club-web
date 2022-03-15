@@ -127,28 +127,26 @@ export default function Main(props) {
     // <div ref={contextRef} style= {{backgroundColor:'#1E1E27',height: 123, width:270}}>
         <div>
             <EntryFeeModal/>
-        <Container style= {{backgroundColor:'#1E1E27', width:270}}>
-            <Grid>
-                <Grid.Row columns={2}>
-                    <Grid.Column textAlign='left'>
+            <Grid textAlign='center'>
+                <Grid.Row columns={3} >
+                    <Grid.Column textAlign='left' width={4}>
                         <p style={styles.memo}>
                             Entry Fee
                         </p>
                     </Grid.Column>
-                    <Grid.Column textAlign='right'>
-                       <Button style={styles.edit} size={'mini'} onClick={(e)=>{setOpen(true)}}>Edit</Button>
-                       {/* <a style={styles.edit}>Edit</a> */}
-                    </Grid.Column>
+                    <Grid.Column textAlign='center' width={3}>
+                    <p style={styles.entryFee}>
+                        {entryFee}
+                    </p>
+                  </Grid.Column>
+                    <Grid.Column textAlign='right' width={3}>
+                    <ReactSVG 
+                     onClick={(e)=>{setOpen(true)}}
+                        src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}
+                    /> 
+                    </Grid.Column>  
                 </Grid.Row>
-                <Grid.Row>
-                    <Grid.Column verticalAlign='center'>
-                        <p style={styles.entryFee}>
-                            {entryFee}
-                        </p>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        </Container>
+            </Grid> 
      </div>
     )
 }

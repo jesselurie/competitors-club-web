@@ -1,116 +1,29 @@
-import React, { createRef,useState } from 'react'
+import React from 'react'
 import {
-  Container,
   Dimmer,
   Loader,
   Grid,
-  Sticky,
-  Message,
-  Menu,
-  Image,
-  Segment,
-  Sidebar
+  Message
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { Outlet } from "react-router-dom";
-import {
-  useParams,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
-
 import { SubstrateContextProvider, useSubstrateState } from './substrate-lib'
 import { DeveloperConsole } from './substrate-lib/components'
-
-import AccountSelector from './AccountSelector'
-import Balances from './Balances'
-import BlockNumber from './BlockNumber'
-import Events from './Events'
-import Interactor from './Interactor'
-import Metadata from './Metadata'
-import NodeInfo from './NodeInfo'
-import TemplateModule from './TemplateModule'
-import Transfer from './Transfer'
-import Upgrade from './Upgrade'
-import Create from './Create';
-import Welcome from './components/Welcome';
-// import Menu from './components/Menu';
-// import Sidebar from './components/Sidebar';
-import { SI } from '@polkadot/util/format/si';
+import { Provider } from 'react-redux';
+import {PersistGate } from 'redux-persist/lib/integration/react';
+import store, {persistor} from './redux/store';
 import Topbar from './components/Topbar';
-
-const VerticalSidebar = ({ animation, direction, visible,handleItemClick, activeItem }) => (
-  <Sidebar
-    as={Menu}
-    animation={animation}
-    direction={direction}
-    icon='labeled'
-    inverted
-    // vertical
-    visible={visible}
-    width='very wide'
-  >
-    <Menu.Item as='a'   name='home' onClick={handleItemClick}   active={activeItem === 'home'}>
-      <Image
-        src={`${process.env.PUBLIC_URL}/assets/home.svg`}
-        size="tiny"
-        fluid
-      />
-      Home
-    </Menu.Item>
-    <Menu.Item as='a'  name='tokens' onClick={handleItemClick} active={activeItem === 'tokens'}>
-      <Image
-        src={`${process.env.PUBLIC_URL}/assets/tokens.svg`}
-        size="tiny"
-        fluid
-      />
-      Tokens
-    </Menu.Item>
-    <Menu.Item as='a'  name='trophies' onClick={handleItemClick} active={activeItem === 'trophy'}>
-      <Image
-        src={`${process.env.PUBLIC_URL}/assets/trophy.svg`}
-        size="tiny"
-        fluid
-      />
-      Trophies
-    </Menu.Item>
-  </Sidebar>
-)
-
-function exampleReducer(state, action) {
-  switch (action.type) {
-    case 'CHANGE_ANIMATION':
-      return { ...state, animation: action.animation, visible: !state.visible }
-    case 'CHANGE_DIMMED':
-      return { ...state, dimmed: action.dimmed }
-    case 'CHANGE_DIRECTION':
-      return { ...state, direction: action.direction, visible: false }
-    default:
-      throw new Error()
-  }
-}
-
+import { useLiveData } from './modules';
+import { useSelector} from 'react-redux';
+import { accountSelector } from './redux/orm/selectors';
 
 function Main() {
-  const [state, dispatch] = React.useReducer(exampleReducer, {
-    animation: 'push',
-    direction: 'left',
-    dimmed: false,
-    visible: true,
-  })
   const { apiState, apiError, keyringState } = useSubstrateState()
-  const [activeItem, setActiveItem] = useState('home');
-  let navigate = useNavigate();
-  let location = useLocation();
-  let params = useParams();
-  // state = { activeItem: 'home' }
-
-   const handleItemClick = (e, { name }) => { 
-      setActiveItem(name);
-      navigate("/"+name);
-      //Link to the name
-    }
-
+  const [liveData] = useLiveData();
+  const username = useSelector(state => state.selectedAccount);
+  const account = useSelector(state => accountSelector(username)(state));  
+  
+  console.log('account: ',account);
   const loader = text => (
     <Dimmer active>
       <Loader size="small">{text}</Loader>
@@ -138,30 +51,7 @@ function Main() {
     return loader(
       "Loading accounts (please review any extension's authorization)"
     )
-  }
-
-  const contextRef = createRef()
-  const { animation, dimmed, direction, visible } = state
-  const getMenuItem = (name,imageName) => {
-    return <Menu.Item
-      name={name}
-      active={activeItem===name}
-      onClick={handleItemClick}
-    >
-      <Image
-         src={`${process.env.PUBLIC_URL}/assets/` + imageName}
-         size="tiny"
-      />
-    </Menu.Item>
-  };
-  const getMenu = () => {
-    return  <Menu fluid widths={4} style={{backgroundColor:'#11111E'}}>
-    {getMenuItem('home','home.svg')}
-    {getMenuItem('tokens','tokens.svg')}
-    {getMenuItem('trophies','trophy.svg')}
-    {getMenuItem('competitions','dice.svg')}
-  </Menu> 
-  }
+  } 
 
   return (
     <>
@@ -174,8 +64,12 @@ function Main() {
 export default function PageLayout({children}) {
   return (
     <SubstrateContextProvider>
-      <Main />
-      <Outlet />
+       <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Main />
+            <Outlet />
+          </PersistGate>
+        </Provider>
     </SubstrateContextProvider>
   )
 }

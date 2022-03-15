@@ -10,6 +10,7 @@ import {
   Modal,
   TextArea
 } from 'semantic-ui-react'
+import { ReactSVG } from 'react-svg'
 import 'semantic-ui-css/semantic.min.css'
 /**
  * Memo
@@ -88,20 +89,24 @@ export default function Main(props) {
     return (
     <div ref={contextRef}>
         <MemoModal/>
-        <Container style= {{backgroundColor:'#1E1E27',height: 178, width:588}}>
-            <Grid >
+        {/* <Container style= {{backgroundColor:'#1E1E27',height: 178, width:588}}> */}
+            <Grid textAlign='center'>
                 <Grid.Row columns={2}>
-                    <Grid.Column textAlign='right' width={12}>
+                    <Grid.Column textAlign='left' width={12}>
                         <p style={styles.memo}>
                             {memo}
                         </p>
                     </Grid.Column>
-                    <Grid.Column textAlign='left' width={4}>
-                        <Button style={styles.edit} size={'mini'} onClick={(e)=>{setOpen(true)}}>Edit</Button>
+                    <Grid.Column textAlign='right' width={4}>
+                    <ReactSVG 
+                     onClick={(e)=>{setOpen(true)}}
+                        src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}
+                    /> 
+                        {/* <Button style={styles.edit} size={'mini'} onClick={(e)=>{setOpen(true)}}>Edit</Button> */}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
-        </Container>
+        {/* </Container> */}
     </div>
     )
 }

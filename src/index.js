@@ -8,6 +8,10 @@ import {
 import PageLayout from './PageLayout';
 import Welcome from './Welcome';
 import Home from './Home';
+import { Provider } from 'react-redux';
+import {PersistGate } from 'redux-persist/lib/integration/react';
+import store, {persistor} from './redux/store';
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

@@ -19,7 +19,7 @@ import 'semantic-ui-css/semantic.min.css'
 // import styled from 'styled-components';
 import Identicon from '@polkadot/react-identicon'
 import { ReactSVG } from 'react-svg'
-import './players.css';
+import './payouts.css';
 
 // import ScrollMenu from 'react-horizontal-scrolling-menu';
 // import './podium.css';
