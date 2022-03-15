@@ -19,6 +19,9 @@ import 'semantic-ui-css/semantic.min.css'
 // import styled from 'styled-components';
 import Identicon from '@polkadot/react-identicon'
 import { ReactSVG } from 'react-svg'
+import {isValidAddressPolkadotAddress} from '../utils/index';
+import {addCompetitor,removeCompetitor} from '../redux/orm/models/competitor';
+import {useSelector,useDispatch, connect} from 'react-redux';
 import './players.css';
 
 // import ScrollMenu from 'react-horizontal-scrolling-menu';
@@ -154,11 +157,15 @@ const addFromAddressBook = {
 };
 
 export default function Main(props) {
+    const dispatch = useDispatch();
     const contextRef = createRef()  
     const [open, setOpen] = React.useState(false)
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(0)
     const [selectedPayoutIndex, setSelectedPayoutIndex] = useState(0);
     const [openNewPlayerModal, setOpenNewPlayerModal] = React.useState(false)
+    // const [playerAccountId,setPlayerAccountId] = useState(null);
+
+    const {action, game} = props;
 
     const payoutRow = (place,payout,index) => {
       return (
@@ -190,6 +197,7 @@ export default function Main(props) {
     )
 
     const NewPlayerModal = () => {
+      const [playerAccountId,setPlayerAccountId] = useState(null);
       return (
         <Modal
           closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
@@ -208,7 +216,7 @@ export default function Main(props) {
                 </Grid.Row>
                 <Grid.Row verticalAlign='center' >
                   <Grid.Column textAlign='middle'>
-                  <Input iconPosition='left' placeholder='Account Id'>
+                  <Input iconPosition='left' onChange={(e,data)=>{setPlayerAccountId(data.value)}}>
                     <ReactSVG 
                           src={`${process.env.PUBLIC_URL}/assets/user-icon.svg`}
                     />
@@ -247,7 +255,14 @@ export default function Main(props) {
               content="Done"
               labelPosition='right'
               icon='checkmark'
-              onClick={() => setOpenNewPlayerModal(false)}
+              onClick={() => { 
+                if (isValidAddressPolkadotAddress(playerAccountId)){
+                  dispatch(addCompetitor(playerAccountId,game.vieId));
+                }else {
+                  alert('Invalid competitor account ID')
+                }
+                setOpenNewPlayerModal(false)
+              }}
               color='red'
             />
           </Modal.Actions>          
@@ -265,30 +280,6 @@ export default function Main(props) {
           size={'small'}
           style={modalStyle}
         >
-          {/* <Modal.Header>
-          
-                <Header as='h3' textAlign='right'>
-                <ReactSVG 
-                        src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
-                      />
-                </Header>
-                <Header as='h3' textAlign='center'>
-                <Identicon
-                      value={data[selectedIndex].accountId}
-                      size={36}
-                      theme={'polkadot'}/>  
-                </Header>
-                <Header.Subheader as='h3' textAlign='justified'>
-                {data[selectedIndex].accountId}
-                <ReactSVG 
-                      src={`${process.env.PUBLIC_URL}/assets/copy-to-clipboard.svg`}
-                    />
-                </Header.Subheader>
-                <Header as='h3' textAlign='center'>
-                Pending
-                </Header>
-              
-          </Modal.Header> */}
           <Modal.Content style={{backgroundColor:'#1E1E27'}}>
             <Grid>
               <Grid.Row columns={3} verticalAlign={'top'}> 
@@ -316,7 +307,7 @@ export default function Main(props) {
               </Grid.Row>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width={12}textAlign='center' >
-                  <p style={{"word-break":"break-all"}}>{data[selectedIndex].accountId}</p>
+                  <p style={{"wordBreak":"break-all"}}>{data[selectedIndex].accountId}</p>
                 </Grid.Column>
                  <Grid.Column width={4} >
                 <ReactSVG 
@@ -391,15 +382,16 @@ export default function Main(props) {
               </Table.HeaderCell>
              <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>  Players </Table.HeaderCell>
             <Table.HeaderCell  colSpan="3" id="header" textAlign={'right'} onClick={(e)=>{setOpenNewPlayerModal(true)}}>
-                <ReactSVG 
+               {action == 0 && ( <ReactSVG 
                   src={`${process.env.PUBLIC_URL}/assets/add-item.svg`}
-                />
+                />)}
+               
             </Table.HeaderCell> 
           </Table.Row>
           
         </Table.Header>
           <Table.Body>
-            {data.map((player,index)=>{
+            {game?.competitors?.map((player,index)=>{
               return row(player.accountId,player.username,player.isPending,index);
             })}
           </Table.Body>

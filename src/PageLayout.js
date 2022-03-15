@@ -20,7 +20,7 @@ import { accountSelector } from './redux/orm/selectors';
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
   const [liveData] = useLiveData();
-  // const [account, selectedGame] = useReduxState();
+  const [account,selectedGame,game] = useReduxState();
 
   // const username = useSelector(state => state.selectedAccount);
   // const account = useSelector(state => accountSelector(username)(state));  
@@ -56,7 +56,7 @@ function Main() {
       "Loading accounts (please review any extension's authorization)"
     )
   } 
-
+  
   return (
     <>
       <Topbar/>      

@@ -90,17 +90,30 @@ export function JoinButtons(props) {
     )
 }
 
+// --- COMPETE ---
+//       CREATE GAME 
+//       FINISH GAME 
+//       JOIN GAME 
+//         0: NEW GAME 
+//             - Create game
+//         1: OPERATOR
+//             - Waiting for everyone to accept
+//             - Everyone accepted, create podium and submit results 
+//         2: COMPETITOR
+//             - Invited to a game 
+//             - Waiting for everyone to accept 
+//             - Waiting for operator to finish
 export default function Main(props) {
     const contextRef = createRef()
     const {action} = props
-    if(action == 'start') {
+    if(action == 0) {
         return (
             <div ref={contextRef}>
              <CreateButton/>
             </div>
         )
     }
-    if (action =='join') {
+    if (action ==2) {
         return (
             <div ref={contextRef}>
                 <Grid>
@@ -116,7 +129,7 @@ export default function Main(props) {
             </div>
         )
     }
-    if (action =='finish') {
+    if (action ==1) {
         return(
             <div ref={contextRef}>
                 <FinisheButton/>

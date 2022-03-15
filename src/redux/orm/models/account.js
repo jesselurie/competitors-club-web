@@ -212,6 +212,8 @@ export class Account extends Model {
 
             case PUT_COMPETITOR_DATA: {
                 const {username,data} = payload;
+                console.log('USERNAME: ', username)
+                console.log('DATA: ', data)
                 Account.withId(username).set("competitorData",data);
                 break;
             }

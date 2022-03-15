@@ -11,15 +11,7 @@ import Trophy from './components/Trophy'
 import Payouts from './components/Payouts'
 import Chat from './components/Chat'
 import Actions from './components/Actions';
-import {useCompetition} from './substrate-lib/useCompetition';
-import { useSubstrate, useSubstrateState } from './substrate-lib';
-import { editPlaceSelector, gameSelector,accountSelector,fullAccountSelector} from './redux/orm/selectors';
-
 import {useSelector,useDispatch} from 'react-redux';
-import { onboardingSelector} from './redux/orm/selectors';
-import { createUser } from './redux/orm/models';
-import {selectAccount} from './redux/reducers/selectedAccountReducer';
-import {setCurrentGameVieId} from  './redux/reducers/currentGameVieIdReducer';
 import { useReduxState } from './modules'
 
 const styles = {
@@ -35,19 +27,10 @@ const styles = {
   
 export default function Main(props) {
     const dispatch = useDispatch();
-    const [account,selectedGame] = useReduxState();
-    // console.log("account: ",account);
-    // console.log("selectedGame: ",selectedGame)
-    // const [competitor,vie,wins,accountData,isOperator] = useCompetition();
-    // const { keyringState,apiState} = useSubstrateState();
-    // const {state: { keyring, currentAccount }} = useSubstrate();
-    // const username = useSelector(state => state.selectedAccount);
-    // const account = useSelector(state => accountSelector(username)(state));      
-    // const onboarding = useSelector(state=>onboardingSelector(state));
-    // console.log('ONBOARDING:',onboarding);
-    // console.log('ACCOUNT:',account);
-    // console.log('USERNAME: ', username);
-    
+    const [account,selectedGame,game] = useReduxState();
+    console.log("account: ",account);
+    console.log("selectedGame: ",selectedGame)
+    console.log("GAME: ", game);
     const contextRef = createRef()
     
     // useEffect(()=>{
@@ -59,19 +42,26 @@ export default function Main(props) {
     //         dispatch(setCurrentGameVieId("0x00000000000000000000000000000000"));
     //     }
     // },[currentAccount]);
-
+    // if (account == undefined){
+    //     return (
+    //         <></>
+    //     )
+    // }
     return (
         <div ref={contextRef}>
             <Grid stackable celled columns='equal' style={{backgroundColor:'#1E1E27'}}>
                 <Grid.Row columns={3}>
                     <Grid.Column >
-                        <Players/>    
+                        <Players
+                            action={selectedGame}
+                            game={game}
+                        />    
                     </Grid.Column>
                     <Grid.Column textAlign='center'>
                         <EntryFee entryFee={10}/>   
                         <Trophy/> 
                         <Memo memo={'THIS STRING IS 256 CHARACTERS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}/>  
-                        <Actions action={'start'}/>
+                        <Actions action={selectedGame}/>
                     </Grid.Column>
                     <Grid.Column>
                         <Payouts/>

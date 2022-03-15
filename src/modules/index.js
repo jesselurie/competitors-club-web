@@ -1,12 +1,13 @@
 import React, {useEffect,useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {putAccountData,putGameData,putTrophiesData,putCompetitorData} from '../redux/orm/models/account';
+import {putAccountData,putGameData,putTrophiesData,putCompetitorData,createUser} from '../redux/orm/models/account';
 import {setIsNewOrOperatorOrCompetitor} from '../redux/reducers/isNewOrOperatorOrCompetitorReducer';
-import { accountSelector} from '../redux/orm/selectors';
+import { accountSelector,gameSelector} from '../redux/orm/selectors';
 import { addAccountInfo } from '../redux/orm/models';
 import { useSubstrate, useSubstrateState } from '../substrate-lib';
 import {importGame} from '../redux/orm/models';
 import {setCurrentGameVieId} from '../redux/reducers/currentGameVieIdReducer';
+import {selectAccount} from '../redux/reducers/selectedAccountReducer';
 
 // --- COMPETE ---
 //       CREATE GAME 
@@ -25,7 +26,10 @@ export const useReduxState = (props) => {
     const username = useSelector(state => state.selectedAccount);
     const selectedGame = useSelector(state=>state.isNewOrOperatorOrCompetitor);
     const account = useSelector(state => accountSelector(username)(state)); 
-    return [account,selectedGame];
+    const currentGameVieId = useSelector(state=>state.currentGameVieId);  
+    const game = useSelector(state=>gameSelector(currentGameVieId)(state));
+
+    return [account,selectedGame,game];
 }
 
 export const useLiveData = (props) => {
@@ -35,7 +39,7 @@ export const useLiveData = (props) => {
     const account = useSelector(state => accountSelector(username)(state));  
     const {state: { keyring, currentAccount }} = useSubstrate();
     const { keyringState,apiState, api} = useSubstrateState();
-    const [liveData, setLiveData] =useState(false);
+    const [liveData, setLiveData] = useState(false);
 
     const queryOperator = async () => {
         try {
@@ -140,14 +144,14 @@ export const useLiveData = (props) => {
             return e[1];
         })
 
-        console.log('isOperator: ',isOperator);
-        console.log('competitor: ',competitor);
-        console.log('vie: ',vie);
-        console.log('accountData: ',accountData);
-        console.log('winsData: ',winsData);
-        console.log('trophiesData: ',trophiesData);
+        // console.log('isOperator: ',isOperator);
+        // console.log('competitor: ',competitor);
+        // console.log('vie: ',vie);
+        // console.log('accountData: ',accountData);
+        // console.log('winsData: ',winsData);
+        // console.log('trophiesData: ',trophiesData);
         
-
+        dispatch(createUser(currentAccount.address,null,null))
         if (trophiesData.length != 0){
             dispatch(putTrophiesData(currentAccount.address,trophiesData));
         }
@@ -159,12 +163,13 @@ export const useLiveData = (props) => {
         dispatch(setCurrentGameVieId(competitor.vie_id));
         dispatch(putAccountData(currentAccount.address,accountData));
         dispatch(addAccountInfo(accountData,currentAccount.address));
+        dispatch(selectAccount(currentAccount.address));
         setLiveData(true);
     };
 
 
     useEffect(()=> {
-        if (keyringState == 'READY' && apiState == 'READY' && currentAccount?.address != null) {
+        if (keyringState == 'READY' && apiState == 'READY' && currentAccount?.address !== null) {
             console.log('here');
             reload();  
         }else {

@@ -40,10 +40,12 @@ class Competitor extends Model{
         switch(type){
             case ADD_COMPETITOR: {
                 const {accountId,vieId} = payload;
+                const isPending = true;
+                const place = 0;
                 // console.log("P: ",payload);
                 //check if competitor id and vie id exists 
                 const exists = Competitor.exists({accountId,vieId});
-                !exists && Competitor.create({accountId,vieId});
+                !exists && Competitor.create({accountId,vieId,isPending,place});
                 break;
             }
             case REMOVE_COMPETITOR: {
@@ -72,6 +74,8 @@ Competitor.fields = {
     accountId: attr(),
     staked: attr(),
     submittedWinner: attr(),
+    place: attr(),
+    isPending: attr(),
     vieId: fk('Game', 'competitors'),
 };
 

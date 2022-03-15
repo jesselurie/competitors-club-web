@@ -92,11 +92,11 @@ export const ordinal_suffix_of = (i)=> {
 
 export const explorerQueryUrl = "https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode0.competitors.club%2Fwss#/explorer/query/";
 
-export const alertAndCopyTxURL = (blockhash) => {
-    const message = "Transaction complete & url copied to clipboad! To view paste in browser.";
-    Clipboard.setString(explorerQueryUrl + blockhash);
-    alert(message+ " https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode0.competitors.club%2Fwss#/explorer/query/" + blockhash);
-}
+// export const alertAndCopyTxURL = (blockhash) => {
+//     const message = "Transaction complete & url copied to clipboad! To view paste in browser.";
+//     Clipboard.setString(explorerQueryUrl + blockhash);
+//     alert(message+ " https://polkadot.js.org/apps/?rpc=wss%3A%2F%2Fnode0.competitors.club%2Fwss#/explorer/query/" + blockhash);
+// }
 
 export const checkEventsForErrors = (section,method,data) => {
     let module;
@@ -155,19 +155,19 @@ export const runtimeModules = [
 
 export const ExtrinsicFailed = "ExtrinsicFailed";
 
-export const reloadApp = async (mnemonic, dispatch) => {
-    // await cryptoWaitReady();
-    const keyring = new Keyring({ type: 'sr25519' });
-    keyring.setSS58Format(0);
+// export const reloadApp = async (mnemonic, dispatch) => {
+//     // await cryptoWaitReady();
+//     const keyring = new Keyring({ type: 'sr25519' });
+//     keyring.setSS58Format(0);
     
-    try {
-      const keyPair = keyring.addFromUri(mnemonic);
-      const username = keyPair.address;
-      const wallet = {accountId:username,mnemonic:mnemonic}
-      dispatch(createUser(username,wallet,1234));
-      dispatch(selectAccount(username));
-    //   navigation.navigate('Competition');
-    }catch(e) {
-      alert(e);
-    }
-  }
+//     try {
+//       const keyPair = keyring.addFromUri(mnemonic);
+//       const username = keyPair.address;
+//       const wallet = {accountId:username,mnemonic:mnemonic}
+//       // dispatch(createUser(username,wallet,1234));
+//       // dispatch(selectAccount(username));
+//     //   navigation.navigate('Competition');
+//     }catch(e) {
+//       alert(e);
+//     }
+//   }
