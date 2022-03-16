@@ -1,3 +1,4 @@
+/* global BigInt */
 import React, {useEffect,useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {putAccountData,putGameData,putTrophiesData,putCompetitorData,createUser} from '../redux/orm/models/account';
@@ -22,6 +23,70 @@ import {selectAccount} from '../redux/reducers/selectedAccountReducer';
 //             - Invited to a game 
 //             - Waiting for everyone to accept 
 //             - Waiting for operator to finish
+export const useValidateCompetition = (game) => {
+    const [valid, setValid] = useState(false)
+    const [stake, setStake] = useState(null)
+    const [podium, setPodium] = useState(null)
+    const [competitors, setCompetitors] = useState(null)
+    const [memo,setMemo] = useState(null)
+    const [submit, setSubmit] = useState(false)
+      
+    const toBalance = (value) =>{ 
+        var balance = BigInt(value);
+        var multiplier = BigInt(1000000000000);
+        var total = balance * multiplier;
+        return total.toLocaleString('fullwide',{useGrouping:false});
+      }
+
+    const sumPlaces = () => {
+        let sum = 0;
+    
+        for (let i = 0; i < game.podium.length; i++) {
+            sum += Number(game.podium[i].payout);
+        }
+        return sum;
+    }
+    
+    const totalStaked = () => {
+        return (game.competitors.length +1) * game.stake;
+    }
+    
+    const checkValidPlaces = ()=>{
+        if (sumPlaces() !== totalStaked()){
+          return false
+        }
+        return true
+    }
+
+   
+    
+    useEffect(()=>{
+            if (submit){ 
+            const stakes = toBalance(game.stake);
+            const placess = game.podium.map((p)=>{
+            return {
+                payout: toBalance(p.payout),
+                spot: p.spot
+            };
+            });
+
+            const competitorss = game.competitors.map((c)=>{
+                return c.accountId
+            });
+            setValid(checkValidPlaces())
+            setCompetitors(competitorss)
+            setPodium(placess)
+            setStake(stakes)
+            // console.log("COMPETITORS: ",competitorss)
+            // console.log("PODIUM: ",placess)
+            // console.log("STAKE: ",stakes)
+            // console.log("MEMO: ",memo)
+            }
+    },[game])
+
+  return [setSubmit,valid,competitors,podium,stake, memo]
+}
+
 export const useReduxState = (props) => {
     const username = useSelector(state => state.selectedAccount);
     const selectedGame = useSelector(state=>state.isNewOrOperatorOrCompetitor);

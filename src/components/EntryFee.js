@@ -1,11 +1,6 @@
-import React, { createRef } from 'react'
+import React, { createRef, useState } from 'react'
 import {
-  Container,
-  Dimmer,
-  Loader,
   Grid,
-  Sticky,
-  Message,
   Button,
   Input,
   Modal,
@@ -13,6 +8,8 @@ import {
 } from 'semantic-ui-react'
 import { ReactSVG } from 'react-svg'
 import 'semantic-ui-css/semantic.min.css'
+import { addStake } from '../redux/orm/models';
+import { useDispatch } from 'react-redux';
 /**
  * Memo
  * Buyin
@@ -72,10 +69,13 @@ const styles = {
 
 //Create a new memo or render an existing memo. 
 export default function Main(props) {
+    const dispatch = useDispatch()
     const contextRef = createRef()
-    const {entryFee} = props;
     const [open, setOpen] = React.useState(false)
+    const {game} = props
+    console.log('ENTRY: ',game?.stake)
     const EntryFeeModal = () => {
+    const [editEntryFee, setEditEntryFee] = useState(game?.stake);
         return (
           <Modal
             closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
@@ -94,14 +94,14 @@ export default function Main(props) {
                 </Grid.Row>
                 <Grid.Row verticalAlign='center' >
                   <Grid.Column textAlign='middle'>
-                    <Input labelPosition='right' type='text' placeholder={entryFee}>
+                    <Input labelPosition='right' type='number' placeholder={game?.stake} onChange={(e,data)=>{setEditEntryFee(data.value)}}>
                     <Label basic>
                     <ReactSVG 
                         src={`${process.env.PUBLIC_URL}/assets/cclub-red.svg`}
                     /> 
                     </Label>
                         <input />
-                    <Label>.00</Label>
+                    {/* <Label>.00</Label> */}
                     </Input>
                   </Grid.Column>
                 </Grid.Row>
@@ -116,7 +116,11 @@ export default function Main(props) {
                 content="Done"
                 labelPosition='right'
                 icon='checkmark'
-                onClick={() => setOpen(false)}
+                onClick={() =>  {
+                  console.log(editEntryFee, game?.vieId)
+                  dispatch(addStake(editEntryFee,game?.vieId))
+                  setOpen(false)
+                }}
                 color='red'
               />
             </Modal.Actions>          
@@ -124,7 +128,6 @@ export default function Main(props) {
         )
       }
     return (
-    // <div ref={contextRef} style= {{backgroundColor:'#1E1E27',height: 123, width:270}}>
         <div>
             <EntryFeeModal/>
             <Grid textAlign='center'>
@@ -136,7 +139,7 @@ export default function Main(props) {
                     </Grid.Column>
                     <Grid.Column textAlign='center' width={3}>
                     <p style={styles.entryFee}>
-                        {entryFee}
+                        {game?.stake}
                     </p>
                   </Grid.Column>
                     <Grid.Column textAlign='right' width={3}>

@@ -41,10 +41,21 @@ export default function Main(props) {
                         />    
                     </Grid.Column>
                     <Grid.Column textAlign='center'>
-                        <EntryFee entryFee={10}/>   
+                        <EntryFee 
+                            // vieId={game?.vieId}
+                            // entryFee={game?.stake}
+                            game={game}
+                        />   
                         <Trophy/> 
-                        <Memo memo={'THIS STRING IS 256 CHARACTERS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}/>  
-                        <Actions action={selectedGame}/>
+                        <Memo 
+                            // vieId={game?.vieId}
+                            // memo={game?.memo}
+                            game={game}
+                        />  
+                        <Actions 
+                            action={selectedGame}
+                            game={game}
+                        />
                     </Grid.Column>
                     <Grid.Column>
                         <Payouts

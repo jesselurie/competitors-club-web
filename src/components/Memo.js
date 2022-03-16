@@ -1,17 +1,14 @@
-import React, { createRef } from 'react'
+import React, { createRef, useState} from 'react'
 import {
-  Container,
-  Dimmer,
-  Loader,
   Grid,
-  Sticky,
-  Message,
   Button,
   Modal,
   TextArea
 } from 'semantic-ui-react'
 import { ReactSVG } from 'react-svg'
+import {addMemo} from '../redux/orm/models/game';
 import 'semantic-ui-css/semantic.min.css'
+import { useDispatch } from 'react-redux';
 /**
  * Memo
  * Buyin
@@ -30,6 +27,16 @@ const styles = {
         // textTransform: 'uppercase',
         wordBreak:"break-all",
     },
+    editMemo: {
+      // color: '#EEEEEE',
+      fontFamily: 'Montserrat',
+      fontStyle: 'normal',
+      fontWeight: '700',
+      fontSize: 14,
+      // letterSpacing: 0.02,
+      // textTransform: 'uppercase',
+      wordBreak:"break-all",
+  },
     memoModalTitle: {
         color: '#EEEEEE',
         fontFamily: 'Montserrat',
@@ -42,11 +49,13 @@ const styles = {
 
 //Create a new memo or render an existing memo. 
 export default function Main(props) {
+    const dispatch = useDispatch()
     const contextRef = createRef()
     const [open, setOpen] = React.useState(false)
-    const {memo} = props;
-
+    const {game} = props;
+  console.log(game)
     const MemoModal = () => {
+      const [editMemo, setEditMemo] = useState(game.memo);
         return (
           <Modal
             closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
@@ -65,7 +74,7 @@ export default function Main(props) {
                 </Grid.Row>
                 <Grid.Row>
                   <Grid.Column >
-                    <TextArea placeholder={memo} style={styles.memo} rows={6}/>
+                    <TextArea placeholder={game.memo} style={styles.editMemo} rows={6} onChange={(e,data)=>{setEditMemo(data.value)}}/>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
@@ -79,7 +88,10 @@ export default function Main(props) {
                 content="Done"
                 labelPosition='right'
                 icon='checkmark'
-                onClick={() => setOpen(false)}
+                onClick={() => { 
+                   dispatch(addMemo(editMemo,game.vieId))
+                  setOpen(false)
+                }}
                 color='red'
               />
             </Modal.Actions>          
@@ -94,7 +106,7 @@ export default function Main(props) {
                 <Grid.Row columns={2}>
                     <Grid.Column textAlign='left' width={12}>
                         <p style={styles.memo}>
-                            {memo}
+                            {game.memo}
                         </p>
                     </Grid.Column>
                     <Grid.Column textAlign='right' width={4}>

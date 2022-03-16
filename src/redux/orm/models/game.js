@@ -49,12 +49,14 @@ class Game extends Model{
         switch(type){
             case ADD_MEMO: {
                 const {memo,currentGameVieId} = payload;
-                Game.withId(currentGameVieId).update({memo});
+                // Game.withId(currentGameVieId).update({memo});
+                Game.withId(currentGameVieId).set('memo',memo);
                 break;
             }
             case ADD_STAKE: {
                 const {stake,currentGameVieId} = payload;
-                Game.withId(currentGameVieId).update({stake});
+                console.log("HEREL ",stake,currentGameVieId);
+                Game.withId(currentGameVieId).set('stake',stake);
                 break;
             }
             case IMPORT_GAME: {
