@@ -1,28 +1,18 @@
 import React, { createRef,useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { ReactSVG } from 'react-svg'
 import {
     Grid,
-    List,
-    Image,
-    Card, 
-    Icon, 
     Button,
-    Header,
     Modal,
     Container,
-    Placeholder,
     Table,
-    Label,
-    Menu,
-    Sticky, Input
+    Input
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-// import styled from 'styled-components';
-import Identicon from '@polkadot/react-identicon'
-import { ReactSVG } from 'react-svg'
+import {addSpot,updatePayout, removeSpot} from '../redux/orm/models/place'
 import './payouts.css';
 
-// import ScrollMenu from 'react-horizontal-scrolling-menu';
-// import './podium.css';
 /**
  * Title
  * Podium
@@ -152,14 +142,21 @@ const addFromAddressBook = {
 };
 
 export default function Main(props) {
-    const contextRef = createRef()  
+    const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [selectedPayoutIndex, setSelectedPayoutIndex] = useState(0);
     const [openNewPlayerModal, setOpenNewPlayerModal] = React.useState(false)
+    const [selectedPayout, setSelectedPayout] = useState(null)
 
+    // const [selectedIndex, setSelectedIndex] = useState(0);
+    const contextRef = createRef()  
+    const {game,action} = props
+    // console.log(game,action);
 
-    const NewPlayerModal = () => {
+    const NewPayoutModal = () => {
+      const [newPlace, setNewPlace] = useState(null);
+      const [newPayout, setNewPayout] = useState(null);
       return (
         <Modal
           closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
@@ -168,35 +165,36 @@ export default function Main(props) {
           open={openNewPlayerModal}
           // size={'small'}
           style={newPlayerModalStyle}
+          
         >
           <Modal.Content style={{backgroundColor:'#1E1E27'}}>
-          <Grid>
-                <Grid.Row >
-                    <Grid.Column textAlign='center'>
-                     New Payout
-                    </Grid.Column>
-                </Grid.Row>
-                <Grid.Row verticalAlign='center' >
-                  <Grid.Column textAlign='middle'>
-                  <Input iconPosition='left' placeholder='Place'>
-                    <ReactSVG 
-                          src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
-                    />
-                    <input />
-                  </Input>
+            <Grid>
+              <Grid.Row >
+                  <Grid.Column textAlign='center'>
+                    New Payout
                   </Grid.Column>
-                </Grid.Row>
-                <Grid.Row verticalAlign='center' >
-                  <Grid.Column textAlign='middle'>
-                  <Input iconPosition='left' placeholder='Payout'>
-                    <ReactSVG 
-                          src={`${process.env.PUBLIC_URL}/assets/cclub-red.svg`}
-                    />
-                    <input />
-                  </Input>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
+              </Grid.Row>
+              <Grid.Row verticalAlign='center' >
+                <Grid.Column textAlign='middle'>
+                <Input type='number' iconPosition='left' placeholder='Place' onChange={(e,data)=>{setNewPlace(data.value)}}>
+                  <ReactSVG 
+                        src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
+                  />
+                  <input />
+                </Input>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row verticalAlign='center' >
+                <Grid.Column textAlign='middle'>
+                <Input type='number' iconPosition='left' placeholder='Payout'  onChange={(e,data)=>{setNewPayout(data.value)}}>
+                  <ReactSVG 
+                        src={`${process.env.PUBLIC_URL}/assets/cclub-red.svg`}
+                  />
+                  <input />
+                </Input>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Modal.Content>
           <Modal.Actions  style={{backgroundColor:'#1E1E27'}}>
             <Button color='grey' onClick={() => setOpenNewPlayerModal(false)}>
@@ -206,7 +204,10 @@ export default function Main(props) {
               content="Done"
               labelPosition='right'
               icon='checkmark'
-              onClick={() => setOpenNewPlayerModal(false)}
+              onClick={() =>  { 
+                Number(newPayout) > 0 ? dispatch(addSpot(newPlace,newPayout,game.vieId)): alert('Payout needs to be greater than 0');
+                setOpenNewPlayerModal(false)
+              }}
               color='red'
             />
           </Modal.Actions>          
@@ -214,14 +215,15 @@ export default function Main(props) {
       )
     }
 
-    const PlayerModal = () => {
+    const PayoutModal = () => {
+      const [editPlace, setEditPlace] = useState(selectedPayout?.spot);
+      const [editPayout, setEditPayout] = useState(selectedPayout?.payout);
       return (
         <Modal
           closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
-          // size={'small'}
           style={modalStyle}
         >
           <Modal.Content style={{backgroundColor:'#1E1E27'}}>
@@ -235,13 +237,16 @@ export default function Main(props) {
                 <Grid.Column textAlign='center'>
                   <ReactSVG 
                       src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
+                      onClick={()=>{
+                        dispatch(removeSpot(selectedPayout?.id));
+                        setOpen(false)
+                      }}
                     />
                 </Grid.Column>
                 </Grid.Row>
                 <Grid.Row verticalAlign='center' >
-                  
                   <Grid.Column textAlign='middle'>
-                  <Input iconPosition='left' placeholder={dataPayouts[selectedIndex].place}>
+                  <Input iconPosition='left' placeholder={selectedPayout?.spot} disabled>
                     <ReactSVG 
                           src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
                     />
@@ -251,7 +256,7 @@ export default function Main(props) {
                 </Grid.Row>
                 <Grid.Row verticalAlign='center' >
                   <Grid.Column textAlign='middle'>
-                  <Input iconPosition='left'  placeholder={dataPayouts[selectedIndex].payout}>
+                  <Input iconPosition='left'  placeholder={selectedPayout?.payout} onChange={(e,data)=>{setEditPayout(data.value)}}>
                     <ReactSVG 
                           src={`${process.env.PUBLIC_URL}/assets/cclub-red.svg`}
                     />
@@ -270,7 +275,10 @@ export default function Main(props) {
               content="Done"
               labelPosition='right'
               icon='checkmark'
-              onClick={() => setOpen(false)}
+              onClick={() => { 
+                Number(editPayout) !== 0 ? dispatch(updatePayout(editPayout,selectedPayout.id)): alert('Payout needs to be greater than 0');
+                setOpen(false) 
+              }}
               color='red'
             />
           </Modal.Actions>          
@@ -278,15 +286,17 @@ export default function Main(props) {
       )
     }
     
-    const row = (payout,place,index) => {
+    const row = (place,index) => {
+      const {spot,payout, accountId,id} = place;
       return (
       <Table.Row style={rowStyles} onClick={(e)=>{ 
         //set current index to edit 
           setSelectedIndex(index);
           setOpen(true);
+          setSelectedPayout(place);
         }}>
         <Table.Cell width={4} onClick={(e)=>{console.log('clicked icon for copying: ',index)}}> 
-          {place}
+          {spot}
         </Table.Cell>
         <Table.Cell width={4}  textAlign={'center'} onClick={(e)=>{console.log('clicked username for editing:', index)}}>{payout}</Table.Cell>
         
@@ -294,9 +304,7 @@ export default function Main(props) {
       );
     }
     
-    const TableExamplePagination = () => (
-      // <div style= {{backgroundColor:'#1E1E27',height: 343, width:350}}>    
-      // style= {{backgroundColor:'#1E1E27',height: 343, width:350}}          //  
+    const PayoutsTable = () => (
        <Container >
         <Table  unstackable fixed singleLine role="grid" aria-labelledby="header">
         <Table.Header>
@@ -306,7 +314,7 @@ export default function Main(props) {
                 src={`${process.env.PUBLIC_URL}/assets/add-icon.svg`}
               />
               </Table.HeaderCell>
-             <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>  Payouts </Table.HeaderCell>
+             <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>Payouts</Table.HeaderCell>
             <Table.HeaderCell  colSpan="3" id="header" textAlign={'right'} onClick={(e)=>{console.log('clicked filter')}}>
                 <ReactSVG 
                   src={`${process.env.PUBLIC_URL}/assets/filter.svg`}
@@ -316,27 +324,20 @@ export default function Main(props) {
           
         </Table.Header>
           <Table.Body>
-            {dataPayouts.map(({payout,place},index)=>{
-              return row(payout,place,index);
+            {game?.podium?.map((place,index)=>{
+              return row(place,index);
             })}
           </Table.Body>
           
         </Table>
         </Container>
-        //  </div>
     )
+
     return (
     <div ref={contextRef}>
-      <PlayerModal/>
-      <NewPlayerModal/>
-     {TableExamplePagination()}
+      <PayoutModal/>
+      <NewPayoutModal/>
+     {PayoutsTable()}
     </div>
     )
 }
-
-      {/* scrolling style={{display: 'inline-flex', overflow: 'scroll'}} */}
-                  {/* style={{display: 'inline-flex', overflow: 'scroll',width:'100%'}} */}
-
-                //   <List vertical divided relaxed style={{height:343,width:346,backgroundColor:'white'}}>
-                //   {listItemv2("15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq")}
-                // </List>    

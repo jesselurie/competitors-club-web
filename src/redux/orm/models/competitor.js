@@ -50,7 +50,9 @@ class Competitor extends Model{
             }
             case REMOVE_COMPETITOR: {
                 const {id} = payload;
-                Competitor.withId(id).delete();
+                const c = Competitor.get({accountId:id});
+                c.delete();
+                // Competitor.withId(id).delete();
                 break;
             }
             case PUT_COMPETITOR_STATE: {

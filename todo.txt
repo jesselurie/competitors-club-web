@@ -23,3 +23,4 @@ March 6, 2022
 - Switch tab view change 
 - Integrate endpoints
 - Implement manager view to load correct view   
+- Refactor models for create game, and load existing game

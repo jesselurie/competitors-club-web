@@ -21,13 +21,7 @@ function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
   const [liveData] = useLiveData();
   const [account,selectedGame,game] = useReduxState();
-
-  // const username = useSelector(state => state.selectedAccount);
-  // const account = useSelector(state => accountSelector(username)(state));  
-  // const selectedGame = useSelector(state=>state.isNewOrOperatorOrCompetitor);
-  // console.log('account: ',account);
-  // console.log('selectedGame: ',selectedGame);
-
+  
   const loader = text => (
     <Dimmer active>
       <Loader size="small">{text}</Loader>

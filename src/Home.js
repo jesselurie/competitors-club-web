@@ -28,25 +28,8 @@ const styles = {
 export default function Main(props) {
     const dispatch = useDispatch();
     const [account,selectedGame,game] = useReduxState();
-    console.log("account: ",account);
-    console.log("selectedGame: ",selectedGame)
-    console.log("GAME: ", game);
     const contextRef = createRef()
     
-    // useEffect(()=>{
-    //     if (keyringState == 'READY' && apiState == 'READY') {
-    //         console.log(competitor,vie,wins,accountData, isOperator);
-    //         console.log('CURRENT ACCOUNT: ', currentAccount.address);
-    //         dispatch(createUser(currentAccount.address,"12/34/56"));
-    //         dispatch(selectAccount(currentAccount.address));
-    //         dispatch(setCurrentGameVieId("0x00000000000000000000000000000000"));
-    //     }
-    // },[currentAccount]);
-    // if (account == undefined){
-    //     return (
-    //         <></>
-    //     )
-    // }
     return (
         <div ref={contextRef}>
             <Grid stackable celled columns='equal' style={{backgroundColor:'#1E1E27'}}>
@@ -64,7 +47,10 @@ export default function Main(props) {
                         <Actions action={selectedGame}/>
                     </Grid.Column>
                     <Grid.Column>
-                        <Payouts/>
+                        <Payouts
+                            action={selectedGame}
+                            game={game}
+                        />
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

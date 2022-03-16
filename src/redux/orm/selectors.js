@@ -123,7 +123,7 @@ export const gameSelector = (vieId) => {
                 const { ref } = game;
                 return {
                     ...ref,
-                    competitors: game.competitors.toRefArray().map(competitor => {return {id:competitor.id,accountId:competitor.accountId,staked:competitor.staked,submittedWinner:competitor.submittedWinner} }),
+                    competitors: game.competitors.toRefArray().map(competitor => {return {id:competitor.id,accountId:competitor.accountId,staked:competitor.staked,submittedWinner:competitor.submittedWinner, isPending: competitor.isPending, place: competitor.place} }),
                     // places: game.places.toRefArray().map(place => {return{spot:place.spot,payout:place.payout, accountId: place.accountId} }),
                     podium: game.podium.toRefArray().map(place => {return{spot:place.spot,payout:place.payout, accountId: place.accountId, id:place.id} }),
                 };

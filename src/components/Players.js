@@ -22,6 +22,8 @@ import { ReactSVG } from 'react-svg'
 import {isValidAddressPolkadotAddress} from '../utils/index';
 import {addCompetitor,removeCompetitor} from '../redux/orm/models/competitor';
 import {useSelector,useDispatch, connect} from 'react-redux';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 import './players.css';
 
 // import ScrollMenu from 'react-horizontal-scrolling-menu';
@@ -163,7 +165,9 @@ export default function Main(props) {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [selectedPayoutIndex, setSelectedPayoutIndex] = useState(0);
     const [openNewPlayerModal, setOpenNewPlayerModal] = React.useState(false)
-    // const [playerAccountId,setPlayerAccountId] = useState(null);
+  
+    const [selectedPlayer, setSelectedPlayer] = useState(null)
+    const [copiedToClipboard, setCopiedToClipboard] = useState(false)
 
     const {action, game} = props;
 
@@ -197,6 +201,7 @@ export default function Main(props) {
     )
 
     const NewPlayerModal = () => {
+      // const [playerAccountId,setPlayerAccountId] = useState(null);
       const [playerAccountId,setPlayerAccountId] = useState(null);
       return (
         <Modal
@@ -274,8 +279,8 @@ export default function Main(props) {
       return (
         <Modal
           closeIcon={{ style: {color:'#2B2B35' }, name: 'close' }}
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
+          onClose={() => { setOpen(false); setCopiedToClipboard(false);}}
+          onOpen={() => { setOpen(true); setCopiedToClipboard(false);} }
           open={open}
           size={'small'}
           style={modalStyle}
@@ -290,29 +295,42 @@ export default function Main(props) {
                 </Grid.Column>
                 <Grid.Column textAlign='middle'>
                   <Identicon
-                    value={data[selectedIndex].accountId}
+                    value={selectedPlayer?.accountId}
                     size={36}
                     theme={'polkadot'}/>  
                 </Grid.Column>
                 <Grid.Column  textAlign='middle'>
-                  <ReactSVG 
+                  <ReactSVG  
+                      onClick = {(e)=>{
+                        dispatch(removeCompetitor(selectedPlayer?.accountId));
+                        setOpen(false);
+                        setCopiedToClipboard(false);
+                      }}
                       src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
                     />
                 </Grid.Column>
               </Grid.Row> 
              <Grid.Row verticalAlign='middle'>
                 <Grid.Column textAlign='center' >
-                  Pending
+                {selectedPlayer?.isPending? (<p style={pendingStyle}>Pending</p>): <p style={joinedStyle}>Joined</p>} 
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width={12}textAlign='center' >
-                  <p style={{"wordBreak":"break-all"}}>{data[selectedIndex].accountId}</p>
+                  <p style={{"wordBreak":"break-all"}}>{selectedPlayer?.accountId}</p>
                 </Grid.Column>
                  <Grid.Column width={4} >
-                <ReactSVG 
+                 <CopyToClipboard text={selectedPlayer?.accountId}
+                    onCopy={() => setCopiedToClipboard(true)}
+                    >
+                      {copiedToClipboard == false? ( <ReactSVG 
                       src={`${process.env.PUBLIC_URL}/assets/copy-to-clipboard.svg`}
-                    />
+                    />): (<ReactSVG 
+                      src={`${process.env.PUBLIC_URL}/assets/checkmark.svg`}
+                    />)}
+                      
+                  </CopyToClipboard>
+               
                 </Grid.Column>
               </Grid.Row> 
               <Grid.Row>
@@ -344,10 +362,11 @@ export default function Main(props) {
       )
     }
     
-    const row = (accountId,username,isPending,index) => {
+    const row = (player,index) => {
+      const {accountId,username,isPending,staked,place} = player;
       return (
       <Table.Row style={rowStyles} onClick={(e)=>{ 
-        //set current index to edit 
+          setSelectedPlayer(player);
           setSelectedIndex(index);
           setOpen(true);
         }}>
@@ -368,10 +387,7 @@ export default function Main(props) {
       );
     }
     
-    const TableExamplePagination = () => (
-      // <div style= {{backgroundColor:'#1E1E27',height: 343, width:350}}>       
-      // style= {{backgroundColor:'#1E1E27',height: 343, width:350}}        
-      //  <Container>
+    const PlayersTable = () => (
         <Table  unstackable fixed singleLine role="grid" aria-labelledby="header">
         <Table.Header>
           <Table.Row>
@@ -392,19 +408,18 @@ export default function Main(props) {
         </Table.Header>
           <Table.Body>
             {game?.competitors?.map((player,index)=>{
-              return row(player.accountId,player.username,player.isPending,index);
+              return row(player, index);
             })}
           </Table.Body>
           
         </Table>
-        // </Container>
-        //  </div>
     )
+
     return (
     <div ref={contextRef}>
       <PlayerModal/>
       <NewPlayerModal/>
-     {TableExamplePagination()}
+     {PlayersTable()}
     </div>
     )
 }
