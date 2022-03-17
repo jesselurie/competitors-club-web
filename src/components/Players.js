@@ -63,56 +63,6 @@ const joinedStyle = {
   color: '#207420',
 }
 
-const playersStyle = {
-  fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 600,
-  fontSize: 18,
-  color: '#EEEEEE',
-}
-
-const data = [ 
-  {
-    accountId: '15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq',
-    username: '@Pikachu',
-    isPending:true,
-  },
-  {
-    accountId: '15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq',
-    username: '@Ghost',
-    isPending:false,
-  },
-  {
-    accountId: '15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq',
-    username: '@NinjaTurtle',
-    isPending:false,
-  },
-];
-
-const dataPayouts = [ 
-  {
-    place: 1,
-    payout: 30,
-  },
-  {
-    place: 2,
-    payout: 20,
-  },
-  {
-    place: 3,
-    payout: 1,
-  },
-  {
-    place: 3,
-    payout: 1,
-  }, {
-    place: 3,
-    payout: 1,
-  }, {
-    place: 3,
-    payout: 1,
-  },
-];
 const newPlayerModalStyle = {
   width: 400,
   height: 450,
@@ -171,7 +121,7 @@ export default function Main(props) {
 
     const {action, game} = props;
 
-    const payoutRow = (place,payout,index) => {
+    const payoutRow = (spot,payout,index) => {
       return (
       <Table.Row style={payoutRowStyles} onClick={(e)=>{ 
         //set current index to edit 
@@ -182,6 +132,7 @@ export default function Main(props) {
           <ReactSVG 
              src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
           />   
+          {spot}
         </Table.Cell>
         <Table.Cell textAlign={'center'}>{payout}</Table.Cell>
       </Table.Row>
@@ -192,8 +143,8 @@ export default function Main(props) {
       // <div style= {{backgroundColor:'#373747',height: 214, width:544}}>          <Table  stackable fixed singleLine  style= {{backgroundColor:'#373747',height: 214, width:544}}>             
         <Table unstackable>
           <Table.Body>
-            {dataPayouts.map((place,index)=>{
-              return payoutRow(place.place,place.payout,index);
+            {game?.podium?.map(({spot,payout},index)=>{
+              return payoutRow(spot,payout,index);
             })}
           </Table.Body>
         </Table>
@@ -300,14 +251,16 @@ export default function Main(props) {
                     theme={'polkadot'}/>  
                 </Grid.Column>
                 <Grid.Column  textAlign='middle'>
-                  <ReactSVG  
-                      onClick = {(e)=>{
-                        dispatch(removeCompetitor(selectedPlayer?.accountId));
-                        setOpen(false);
-                        setCopiedToClipboard(false);
-                      }}
-                      src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
+                  {action == 0 && (
+                    <ReactSVG  
+                    onClick = {(e)=>{
+                      dispatch(removeCompetitor(selectedPlayer?.accountId));
+                      setOpen(false);
+                      setCopiedToClipboard(false);
+                    }}
+                    src={`${process.env.PUBLIC_URL}/assets/trash.svg`}
                     />
+                  )}
                 </Grid.Column>
               </Grid.Row> 
              <Grid.Row verticalAlign='middle'>
@@ -330,19 +283,23 @@ export default function Main(props) {
                     />)}
                       
                   </CopyToClipboard>
-               
                 </Grid.Column>
               </Grid.Row> 
-              <Grid.Row>
-                <Grid.Column textAlign='center'> 
-                  Set a Place
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                 {PayoutTable()}
-                </Grid.Column>
-              </Grid.Row>
+              {action == 1 && (
+                <>
+                  <Grid.Row>
+                    <Grid.Column textAlign='center'> 
+                      Set a Place
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                    {PayoutTable()}
+                    </Grid.Column>
+                  </Grid.Row>
+                </>
+              )}
+                
             </Grid>
           </Modal.Content>
      

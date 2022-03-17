@@ -65,19 +65,40 @@ export function FinishButton(props) {
 }
 
 export function CreateButton(props) {
-    const {game} = props    
-    const [setSubmit,valid,competitors,podium,stake, memo] = useValidateCompetition(game)
+    const [stake, setStake] = useState(null)
+    const [podium, setPodium] = useState(null)
+    const [competitors, setCompetitors] = useState(null)
+    const [memo,setMemo] = useState(null)
     const [status,setStatus] = useState(null)
+    const [valid, setValid] = useState(false)
     //Check the state of the game before managing the submission here
     const contextRef = createRef()
+    const {game} = props    
+
     // console.log("SUB: ",{stake,podium,competitors,memo})
     useEffect(()=>{
-        setSubmit(true)
+        if (game) {
+        
+        setMemo(game?.memo)
+        setStake(toBalance(game?.stake))
+        setPodium(game?.podium?.map((p)=>{
+            return {
+              payout: toBalance(p.payout),
+              spot: p.spot
+            };
+          }))
+          setCompetitors(game?.competitors?.map((c)=>{
+            return c.accountId
+          }));
+          setValid(checkValidPlaces())
+
+        }
         console.log("COMPETITORS: ",competitors)
         console.log("PODIUM: ",podium)
         console.log("STAKE: ",stake)
         console.log("MEMO: ",memo)
-    },[])
+        console.log("VALID: ",valid)
+    },[game])
 
     const toBalance = (value) =>{ 
         var balance = BigInt(value);
@@ -106,29 +127,19 @@ export function CreateButton(props) {
         return true
     }
 
+
     return (
         <div ref={contextRef}>            
             <TxButton
                 label="Start"
                 type="SIGNED-TX"
                 setStatus={setStatus}
-                // disabled={valid}
+                disabled={!valid}
                 attrs={{
                 palletRpc: 'vies',
                 callable: 'vie',
                 //stake,podium,competitors,memo
-                inputParams: [{
-                stake:toBalance(game.stake),
-                podium:game.podium.map((p)=>{
-                    return {
-                      payout: toBalance(p.payout),
-                      spot: p.spot
-                    };
-                  }),
-                competitors:game.competitors.map((c)=>{
-                    return c.accountId
-                  }),
-                memo: game.memo}],
+                inputParams: [{stake,podium,competitors,memo}],
                 paramFields: [true],
                 }}
             />
@@ -139,21 +150,26 @@ export function CreateButton(props) {
 
 
 export function JoinButtons(props) {
+    const [status,setStatus] = useState(null)
     const contextRef = createRef()
     return (
-               
-        <div ref={contextRef}>
-                <Grid>
-                    <Grid.Row columns={2}>
-                        <Grid.Column textAlign='center' width={2} >
-                            <Button color="#2B2B35">Deny</Button>
-                        </Grid.Column>
-                        <Grid.Column textAlign='center' width={2}>
-                            <Button color="red">Join</Button>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </div>
+        <>
+            <TxButton
+            label="Join"
+            type="SIGNED-TX"
+            setStatus={setStatus}
+            disabled={false}
+            attrs={{
+            palletRpc: 'vies',
+            callable: 'join',
+            //stake,podium,competitors,memo
+            inputParams: [],
+            paramFields: [],
+            }}
+            />
+            {status}
+        </>
+
     )
 }
 
@@ -170,6 +186,7 @@ export function JoinButtons(props) {
 //             - Invited to a game 
 //             - Waiting for everyone to accept 
 //             - Waiting for operator to finish
+//         3: COMPETITOR JOINED 
 export default function Main(props) {
     const contextRef = createRef()
     const {action, game} = props
@@ -182,19 +199,10 @@ export default function Main(props) {
             </div>
         )
     }
-    if (action ==2) {
+    if (action == 2) {
         return (
             <div ref={contextRef}>
-                <Grid>
-                    <Grid.Row columns={2}>
-                        <Grid.Column textAlign='center' width={2} >
-                            <Button color="#2B2B35">Deny</Button>
-                        </Grid.Column>
-                        <Grid.Column textAlign='center' width={2}>
-                            <Button color="red">Join</Button>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
+               <JoinButtons/>
             </div>
         )
     }
@@ -205,21 +213,4 @@ export default function Main(props) {
             </div>
         )
     }
-
-    // return (
-    // <div ref={contextRef}>
-    //     {/* <Container> */}
-    //         <Grid>
-    //             <Grid.Row columns={2}>
-    //                 <Grid.Column textAlign='center' width={2} >
-    //                     <Button color="#2B2B35">Deny</Button>
-    //                 </Grid.Column>
-    //                 <Grid.Column textAlign='center' width={2}>
-    //                     <Button color="red">Accept</Button>
-    //                 </Grid.Column>
-    //             </Grid.Row>
-    //         </Grid>
-    //     {/* </Container> */}
-    // </div>
-    // )
 }

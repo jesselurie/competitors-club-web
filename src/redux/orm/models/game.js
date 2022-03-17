@@ -42,6 +42,16 @@ export const importGame = (vieId,accountId,data) => {
         }
     }
 }
+
+export const PUT_CURRENT_COMPETITOR = 'PUT_CURRENT_COMPETITOR';
+export const putCurrentCompetitor = (data) => {
+    return {
+        type: PUT_CURRENT_COMPETITOR,
+        payload: {
+            data
+        }
+    };
+};
 ////////////////////////////////
 class Game extends Model{
     static reducer(action,Game,session){
@@ -55,7 +65,7 @@ class Game extends Model{
             }
             case ADD_STAKE: {
                 const {stake,currentGameVieId} = payload;
-                console.log("HEREL ",stake,currentGameVieId);
+                // console.log("HEREL ",stake,currentGameVieId);
                 Game.withId(currentGameVieId).set('stake',stake);
                 break;
             }
@@ -97,6 +107,14 @@ class Game extends Model{
 
                 break;
             }
+            case PUT_CURRENT_COMPETITOR: {
+                // const {accountId,staked,submittedWinner,vieId} = payload.data;
+                const {data} = payload
+                console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
+                Game.withId(data.vie_id).set('currentCompetitor',data);
+                // Competitor.upsert({accountId,staked,submittedWinner,vieId});
+                break;
+            }
         }
     }
 };
@@ -113,6 +131,7 @@ Game.fields = {
     memo: attr(),  
     operator: attr(),
     time: attr(),
+    currentCompetitor: attr(),
     accountId: fk('Account', 'games'),
 };
 

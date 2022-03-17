@@ -56,9 +56,10 @@ class Competitor extends Model{
                 break;
             }
             case PUT_COMPETITOR_STATE: {
-                const {accountId,staked,submittedWinner,vieId, gameId} = payload.data;
-                console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",payload);
-                Competitor.upsert({accountId,staked,submittedWinner,vieId,gameId});
+                // const {accountId,staked,submittedWinner,vieId} = payload.data;
+                const {data} = payload
+                console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
+                // Competitor.upsert({accountId,staked,submittedWinner,vieId});
                 break;
             }
             break;

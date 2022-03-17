@@ -2,6 +2,7 @@
 import React, {useEffect,useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {putAccountData,putGameData,putTrophiesData,putCompetitorData,createUser} from '../redux/orm/models/account';
+import {putCompetitorState} from '../redux/orm/models/competitor';
 import {setIsNewOrOperatorOrCompetitor} from '../redux/reducers/isNewOrOperatorOrCompetitorReducer';
 import { accountSelector,gameSelector} from '../redux/orm/selectors';
 import { addAccountInfo } from '../redux/orm/models';
@@ -209,26 +210,26 @@ export const useLiveData = (props) => {
             return e[1];
         })
 
-        // console.log('isOperator: ',isOperator);
-        // console.log('competitor: ',competitor);
-        // console.log('vie: ',vie);
-        // console.log('accountData: ',accountData);
-        // console.log('winsData: ',winsData);
-        // console.log('trophiesData: ',trophiesData);
-        
+        console.log('isOperator: ',isOperator);
+        console.log('competitor: ',competitor);
+        console.log('vie: ',vie);
+        console.log('accountData: ',accountData);
+        console.log('winsData: ',winsData);
+        console.log('trophiesData: ',trophiesData);
         dispatch(createUser(currentAccount.address,null,null))
-        if (trophiesData.length != 0){
-            dispatch(putTrophiesData(currentAccount.address,trophiesData));
-        }
-      
-        dispatch(putCompetitorData(currentAccount.address,competitor));  
-        dispatch(putGameData(currentAccount.address,vie));
-        dispatch(importGame(competitor.vie_id,currentAccount.address,vie));
-        //SET THE CURRENT VIE ID TO THE IMPORTED ID 
-        dispatch(setCurrentGameVieId(competitor.vie_id));
         dispatch(putAccountData(currentAccount.address,accountData));
         dispatch(addAccountInfo(accountData,currentAccount.address));
         dispatch(selectAccount(currentAccount.address));
+        //SET THE CURRENT VIE ID TO THE IMPORTED ID 
+        dispatch(setCurrentGameVieId(competitor.vie_id));
+        dispatch(importGame(competitor.vie_id,currentAccount.address,vie));
+        dispatch(putGameData(currentAccount.address,vie));
+        if (trophiesData.length != 0){
+            dispatch(putTrophiesData(currentAccount.address,trophiesData));
+        }
+
+        dispatch(putCompetitorData(currentAccount.address,competitor));  
+        dispatch(putCompetitorState(competitor))
         setLiveData(true);
     };
 

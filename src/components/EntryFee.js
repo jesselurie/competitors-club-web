@@ -72,10 +72,11 @@ export default function Main(props) {
     const dispatch = useDispatch()
     const contextRef = createRef()
     const [open, setOpen] = React.useState(false)
-    const {game} = props
-    console.log('ENTRY: ',game?.stake)
+    const {game,action} = props
+    // console.log(game);
+    // console.log('ENTRY: ',game?.stake)
     const EntryFeeModal = () => {
-    const [editEntryFee, setEditEntryFee] = useState(game?.stake);
+    const [editEntryFee, setEditEntryFee] = useState(game.stake);
         return (
           <Modal
             closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
@@ -94,6 +95,7 @@ export default function Main(props) {
                 </Grid.Row>
                 <Grid.Row verticalAlign='center' >
                   <Grid.Column textAlign='middle'>
+
                     <Input labelPosition='right' type='number' placeholder={game?.stake} onChange={(e,data)=>{setEditEntryFee(data.value)}}>
                     <Label basic>
                     <ReactSVG 
@@ -117,8 +119,8 @@ export default function Main(props) {
                 labelPosition='right'
                 icon='checkmark'
                 onClick={() =>  {
-                  console.log(editEntryFee, game?.vieId)
-                  dispatch(addStake(editEntryFee,game?.vieId))
+                  // console.log(editEntryFee, game.vieId)
+                  dispatch(addStake(editEntryFee,game.vieId))
                   setOpen(false)
                 }}
                 color='red'
@@ -128,7 +130,7 @@ export default function Main(props) {
         )
       }
     return (
-        <div>
+        <div ref={contextRef}>
             <EntryFeeModal/>
             <Grid textAlign='center'>
                 <Grid.Row columns={3} >
@@ -139,14 +141,17 @@ export default function Main(props) {
                     </Grid.Column>
                     <Grid.Column textAlign='center' width={3}>
                     <p style={styles.entryFee}>
-                        {game?.stake}
+                        {game.stake}
                     </p>
                   </Grid.Column>
                     <Grid.Column textAlign='right' width={3}>
-                    <ReactSVG 
-                     onClick={(e)=>{setOpen(true)}}
-                        src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}
-                    /> 
+                      {action == 0 && (
+                          <ReactSVG 
+                          onClick={(e)=>{setOpen(true)}}
+                             src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}
+                         /> 
+                      )}
+                  
                     </Grid.Column>  
                 </Grid.Row>
             </Grid> 

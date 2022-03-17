@@ -11,7 +11,7 @@ import Trophy from './components/Trophy'
 import Payouts from './components/Payouts'
 import Chat from './components/Chat'
 import Actions from './components/Actions';
-import {useSelector,useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { useReduxState } from './modules'
 
 const styles = {
@@ -29,7 +29,8 @@ export default function Main(props) {
     const dispatch = useDispatch();
     const [account,selectedGame,game] = useReduxState();
     const contextRef = createRef()
-    
+    console.log("HOME: ",selectedGame, game)
+    // console.log('HOME GAME: ', game);
     return (
         <div ref={contextRef}>
             <Grid stackable celled columns='equal' style={{backgroundColor:'#1E1E27'}}>
@@ -42,14 +43,12 @@ export default function Main(props) {
                     </Grid.Column>
                     <Grid.Column textAlign='center'>
                         <EntryFee 
-                            // vieId={game?.vieId}
-                            // entryFee={game?.stake}
+                            action={selectedGame}
                             game={game}
                         />   
                         <Trophy/> 
                         <Memo 
-                            // vieId={game?.vieId}
-                            // memo={game?.memo}
+                            action={selectedGame}
                             game={game}
                         />  
                         <Actions 

@@ -9,18 +9,14 @@ import 'semantic-ui-css/semantic.min.css'
 import { Outlet } from "react-router-dom";
 import { SubstrateContextProvider, useSubstrateState } from './substrate-lib'
 import { DeveloperConsole } from './substrate-lib/components'
-import { Provider } from 'react-redux';
-import {PersistGate } from 'redux-persist/lib/integration/react';
-import store, {persistor} from './redux/store';
 import Topbar from './components/Topbar';
 import { useLiveData, useReduxState } from './modules';
-import { useSelector} from 'react-redux';
-import { accountSelector } from './redux/orm/selectors';
+
 
 function Main() {
   const { apiState, apiError, keyringState } = useSubstrateState()
   const [liveData] = useLiveData();
-  const [account,selectedGame,game] = useReduxState();
+  // const [account,selectedGame,game] = useReduxState();
   
   const loader = text => (
     <Dimmer active>
@@ -62,12 +58,8 @@ function Main() {
 export default function PageLayout({children}) {
   return (
     <SubstrateContextProvider>
-       <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <Main />
-            <Outlet />
-          </PersistGate>
-        </Provider>
+      <Main />
+      <Outlet />
     </SubstrateContextProvider>
   )
 }

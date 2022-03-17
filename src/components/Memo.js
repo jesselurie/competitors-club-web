@@ -52,8 +52,8 @@ export default function Main(props) {
     const dispatch = useDispatch()
     const contextRef = createRef()
     const [open, setOpen] = React.useState(false)
-    const {game} = props;
-  console.log(game)
+    const {game,action} = props;
+  
     const MemoModal = () => {
       const [editMemo, setEditMemo] = useState(game.memo);
         return (
@@ -110,10 +110,11 @@ export default function Main(props) {
                         </p>
                     </Grid.Column>
                     <Grid.Column textAlign='right' width={4}>
-                    <ReactSVG 
+                      {action == 0 && ( <ReactSVG 
                      onClick={(e)=>{setOpen(true)}}
                         src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}
-                    /> 
+                    /> )}
+                   
                         {/* <Button style={styles.edit} size={'mini'} onClick={(e)=>{setOpen(true)}}>Edit</Button> */}
                     </Grid.Column>
                 </Grid.Row>
