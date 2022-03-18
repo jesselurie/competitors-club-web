@@ -46,20 +46,72 @@ const styles = {
     }
 };
 
+
+
 export function FinishButton(props) {
+    const {game} = props  
+    const [status,setStatus] = useState(null)
+    const [valid, setValid] = useState(false)
     const contextRef = createRef()
+
+     
+    // console.log('FINISH: ',game)
+    useEffect(()=>{
+        if (game) {
+            // console.log('FINISH: ',game)
+            // console.log("BEFORE PODIUM: ",game.podium);
+            // console.log("BEFORE CHAMPION: ",game.champion);
+            // setValid(checkValidPlaces(game))
+            // setChampion(game.champion)
+            // setPodium(game.podium.map((place)=>{
+            //     return {
+            //     competitor: place.accountId,
+            //     spot: place.spot
+            //     }
+            // }))
+            if (game.champion !== "" ) {
+                setValid(true)
+            } else {
+                setValid(false)
+            }
+          console.log("PODIUM: ",game.podium);
+          console.log("CHAMPION: ",game.champion);
+            console.log(game.podium.map((place)=>{
+                return {
+                competitor: place.accountId,
+                spot: place.spot
+                }
+            }))
+          
+        }
+        // console.log("COMPETITORS: ",competitors)
+        // console.log("PODIUM: ",podium)
+        // console.log("STAKE: ",stake)
+        // console.log("MEMO: ",memo)
+        // console.log("VALID: ",valid)
+    },[game])
+
     return (
     <div ref={contextRef}>            
-       <Grid>
-        <Grid.Row columns={2}>
-            <Grid.Column textAlign='center'  >
-                <Button color="#2B2B35">Force Quit</Button>
-            </Grid.Column>
-            <Grid.Column textAlign='center'>
-                <Button color="red">Finish</Button>
-            </Grid.Column>
-        </Grid.Row>
-    </Grid>
+        <TxButton
+                label="Finish"
+                type="SIGNED-TX"
+                setStatus={setStatus}
+                disabled={game.champion == ""}
+                attrs={{
+                palletRpc: 'vies',
+                callable: 'finish',
+                //stake,podium,competitors,memo
+                inputParams: [{champion:game.champion,podium:game.podium.map((place)=>{
+                    return {
+                    competitor: place.accountId,
+                    spot: place.spot
+                    }
+                })}],
+                paramFields: [true],
+                }}
+            />
+            {status}
     </div>
     )
 }
@@ -74,6 +126,33 @@ export function CreateButton(props) {
     //Check the state of the game before managing the submission here
     const contextRef = createRef()
     const {game} = props    
+
+    const toBalance = (value) =>{ 
+        var balance = BigInt(value);
+        var multiplier = BigInt(1000000000000);
+        var total = balance * multiplier;
+        return total.toLocaleString('fullwide',{useGrouping:false});
+    }
+
+    const sumPlaces = () => {
+        let sum = 0;
+
+        for (let i = 0; i < game.podium.length; i++) {
+            sum += Number(game.podium[i].payout);
+        }
+        return sum;
+    }
+
+    const totalStaked = () => {
+        return (game.competitors.length +1) * game.stake;
+    }
+
+    const checkValidPlaces = ()=>{
+        if (sumPlaces() !== totalStaked()){
+        return false
+        }
+        return true
+    }
 
     // console.log("SUB: ",{stake,podium,competitors,memo})
     useEffect(()=>{
@@ -90,43 +169,17 @@ export function CreateButton(props) {
           setCompetitors(game?.competitors?.map((c)=>{
             return c.accountId
           }));
-          setValid(checkValidPlaces())
+          setValid(checkValidPlaces(game))
 
         }
-        console.log("COMPETITORS: ",competitors)
-        console.log("PODIUM: ",podium)
-        console.log("STAKE: ",stake)
-        console.log("MEMO: ",memo)
-        console.log("VALID: ",valid)
+        // console.log("COMPETITORS: ",competitors)
+        // console.log("PODIUM: ",podium)
+        // console.log("STAKE: ",stake)
+        // console.log("MEMO: ",memo)
+        // console.log("VALID: ",valid)
     },[game])
 
-    const toBalance = (value) =>{ 
-        var balance = BigInt(value);
-        var multiplier = BigInt(1000000000000);
-        var total = balance * multiplier;
-        return total.toLocaleString('fullwide',{useGrouping:false});
-      }
-
-    const sumPlaces = () => {
-        let sum = 0;
     
-        for (let i = 0; i < game.podium.length; i++) {
-            sum += Number(game.podium[i].payout);
-        }
-        return sum;
-    }
-    
-    const totalStaked = () => {
-        return (game.competitors.length +1) * game.stake;
-    }
-    
-    const checkValidPlaces = ()=>{
-        if (sumPlaces() !== totalStaked()){
-          return false
-        }
-        return true
-    }
-
 
     return (
         <div ref={contextRef}>            
@@ -209,7 +262,9 @@ export default function Main(props) {
     if (action ==1) {
         return(
             <div ref={contextRef}>
-                <FinishButton/>
+                <FinishButton
+                    game={game}
+                />
             </div>
         )
     }

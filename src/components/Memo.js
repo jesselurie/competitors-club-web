@@ -8,7 +8,9 @@ import {
 import { ReactSVG } from 'react-svg'
 import {addMemo} from '../redux/orm/models/game';
 import 'semantic-ui-css/semantic.min.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'; 
+import {hexToAscii} from '../utils';
+
 /**
  * Memo
  * Buyin
@@ -101,25 +103,22 @@ export default function Main(props) {
     return (
     <div ref={contextRef}>
         <MemoModal/>
-        {/* <Container style= {{backgroundColor:'#1E1E27',height: 178, width:588}}> */}
-            <Grid textAlign='center'>
-                <Grid.Row columns={2}>
-                    <Grid.Column textAlign='left' width={12}>
-                        <p style={styles.memo}>
-                            {game.memo}
-                        </p>
-                    </Grid.Column>
-                    <Grid.Column textAlign='right' width={4}>
-                      {action == 0 && ( <ReactSVG 
-                     onClick={(e)=>{setOpen(true)}}
-                        src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}
-                    /> )}
-                   
-                        {/* <Button style={styles.edit} size={'mini'} onClick={(e)=>{setOpen(true)}}>Edit</Button> */}
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        {/* </Container> */}
+          <Grid textAlign='center'>
+              <Grid.Row columns={2}>
+                  <Grid.Column textAlign='left' width={12}>
+                      <p style={styles.memo}>
+                        {action != 0 && (hexToAscii(game.memo))}
+                        {action == 0 && (game.memo)}
+                      </p>
+                  </Grid.Column>
+                  <Grid.Column textAlign='right' width={4}>
+                    {action == 0 && ( <ReactSVG 
+                    onClick={(e)=>{setOpen(true)}}
+                      src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}
+                  /> )}
+                  </Grid.Column>
+              </Grid.Row>
+          </Grid>
     </div>
     )
 }

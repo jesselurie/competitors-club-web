@@ -117,10 +117,9 @@ const loadAccounts = (state, dispatch) => {
         systemChainType.isDevelopment ||
         systemChainType.isLocal ||
         isTestChain(systemChain)
-
+      Keyring.setSS58Format(0)
       Keyring.loadAll({ isDevelopment }, allAccounts)
-
-      // Keyring.setSS58Format(0)
+      Keyring.setSS58Format(0)
       dispatch({ type: 'SET_KEYRING', payload: Keyring })
     } catch (e) {
       console.error(e)

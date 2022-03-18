@@ -33,6 +33,20 @@ export const putCompetitorState = (data) => {
     };
 };
 
+
+
+export const SET_COMPETITOR_PLACE = 'SET_COMPETITOR_PLACE';
+export const setCompetitorPlace = (data) => {
+    return {
+        type: SET_COMPETITOR_PLACE,
+        payload: {
+            data
+        }
+    };
+};
+
+
+
 ////////////////////////////////
 class Competitor extends Model{
     static reducer(action,Competitor,session){
@@ -42,10 +56,11 @@ class Competitor extends Model{
                 const {accountId,vieId} = payload;
                 const isPending = true;
                 const place = 0;
+                const payout = 0;
                 // console.log("P: ",payload);
                 //check if competitor id and vie id exists 
                 const exists = Competitor.exists({accountId,vieId});
-                !exists && Competitor.create({accountId,vieId,isPending,place});
+                !exists && Competitor.create({accountId,vieId,isPending,place, payout});
                 break;
             }
             case REMOVE_COMPETITOR: {
@@ -58,7 +73,17 @@ class Competitor extends Model{
             case PUT_COMPETITOR_STATE: {
                 // const {accountId,staked,submittedWinner,vieId} = payload.data;
                 const {data} = payload
-                console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
+                // console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
+                // Competitor.upsert({accountId,staked,submittedWinner,vieId});
+                break;
+            }
+            case SET_COMPETITOR_PLACE: {
+                // const {accountId,staked,submittedWinner,vieId} = payload.data;
+                const {placeId,spot,payout, selectedPlayer} = payload.data
+                // console.log('COMPETITOR PLACE: ', placeId,spot,payout)
+                Competitor.withId(selectedPlayer.id).set('place',spot);
+                Competitor.withId(selectedPlayer.id).set('payout',payout);
+                // console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
                 // Competitor.upsert({accountId,staked,submittedWinner,vieId});
                 break;
             }
@@ -78,6 +103,7 @@ Competitor.fields = {
     staked: attr(),
     submittedWinner: attr(),
     place: attr(),
+    payout: attr(),
     isPending: attr(),
     vieId: fk('Game', 'competitors'),
 };

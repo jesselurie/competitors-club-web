@@ -20,9 +20,10 @@ import 'semantic-ui-css/semantic.min.css'
 import Identicon from '@polkadot/react-identicon'
 import { ReactSVG } from 'react-svg'
 import {isValidAddressPolkadotAddress} from '../utils/index';
-import {addCompetitor,removeCompetitor} from '../redux/orm/models/competitor';
+import {addCompetitor,removeCompetitor,setCompetitorPlace} from '../redux/orm/models/competitor';
 import {useSelector,useDispatch, connect} from 'react-redux';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import {setPlaceAccountId, resetPlace} from '../redux/orm/models/place';
 
 import './players.css';
 
@@ -121,12 +122,18 @@ export default function Main(props) {
 
     const {action, game} = props;
 
-    const payoutRow = (spot,payout,index) => {
+    const payoutRow = (placeId,spot,payout,index) => {
       return (
       <Table.Row style={payoutRowStyles} onClick={(e)=>{ 
-        //set current index to edit 
-          // setSelectedIndex(index);
-          // setOpen(true);
+          if(selectedPlayer.place == spot) {
+            //check if other player has already been placed 
+            // remove other player with same place and set the current selected one 
+            dispatch(resetPlace({selectedPlayer,placeId, spot,payout,vieId:game.vieId}))
+          }else {
+            dispatch(setPlaceAccountId({selectedPlayer,placeId, spot,payout,vieId:game.vieId}));
+          }
+         setOpen(false);
+       
         }}>
         <Table.Cell  textAlign={'left'}> 
           <ReactSVG 
@@ -143,8 +150,8 @@ export default function Main(props) {
       // <div style= {{backgroundColor:'#373747',height: 214, width:544}}>          <Table  stackable fixed singleLine  style= {{backgroundColor:'#373747',height: 214, width:544}}>             
         <Table unstackable>
           <Table.Body>
-            {game?.podium?.map(({spot,payout},index)=>{
-              return payoutRow(spot,payout,index);
+            {game?.podium?.map(({spot,payout,id},index)=>{
+              return payoutRow(id,spot,payout,index);
             })}
           </Table.Body>
         </Table>
@@ -156,7 +163,7 @@ export default function Main(props) {
       const [playerAccountId,setPlayerAccountId] = useState(null);
       return (
         <Modal
-          closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'#2B2B35' }, name: 'close' }}
+          closeIcon={{ style: { top: '1.0535rem', right: '1rem',color:'grey' }, name: 'close' }}
           onClose={() => setOpenNewPlayerModal(false)}
           onOpen={() => setOpenNewPlayerModal(true)}
           open={openNewPlayerModal}
@@ -229,7 +236,7 @@ export default function Main(props) {
     const PlayerModal = () => {
       return (
         <Modal
-          closeIcon={{ style: {color:'#2B2B35' }, name: 'close' }}
+          closeIcon={{ style: {color:'grey' }, name: 'close' }}
           onClose={() => { setOpen(false); setCopiedToClipboard(false);}}
           onOpen={() => { setOpen(true); setCopiedToClipboard(false);} }
           open={open}
@@ -333,11 +340,17 @@ export default function Main(props) {
           size={36}
           theme={'polkadot'}/>     
         </Table.Cell>
+        <Table.Cell  textAlign={'right'} onClick={(e)=>{console.log('clicked the ribbon for placing: ',index)}}>
+          {player.place && (player.place)}
+          {/* {!player.place && ('no place')} */}
+        </Table.Cell>
         <Table.Cell textAlign={'center'} onClick={(e)=>{console.log('clicked username for editing:', index)}}>{username}</Table.Cell>
         <Table.Cell  textAlign={'right'} onClick={(e)=>{console.log('clicked the ribbon for placing: ',index)}}>
           <ReactSVG 
              src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
           />
+          </Table.Cell>
+          <Table.Cell  textAlign={'right'} onClick={(e)=>{console.log('clicked the ribbon for placing: ',index)}}>
            {isPending? (<p style={pendingStyle}>Pending</p>): <p style={joinedStyle}>Joined</p>} 
         </Table.Cell>
       </Table.Row>

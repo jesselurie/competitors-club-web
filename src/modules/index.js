@@ -210,12 +210,13 @@ export const useLiveData = (props) => {
             return e[1];
         })
 
-        console.log('isOperator: ',isOperator);
-        console.log('competitor: ',competitor);
-        console.log('vie: ',vie);
-        console.log('accountData: ',accountData);
-        console.log('winsData: ',winsData);
-        console.log('trophiesData: ',trophiesData);
+        // console.log('isOperator: ',isOperator);
+        // console.log('competitor: ',competitor);
+        // console.log('vie: ',vie);
+        // console.log('accountData: ',accountData);
+        // console.log('winsData: ',winsData);
+        // console.log('trophiesData: ',trophiesData);
+        console.log(currentAccount.address)
         dispatch(createUser(currentAccount.address,null,null))
         dispatch(putAccountData(currentAccount.address,accountData));
         dispatch(addAccountInfo(accountData,currentAccount.address));

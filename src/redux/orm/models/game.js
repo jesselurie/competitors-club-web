@@ -110,7 +110,7 @@ class Game extends Model{
             case PUT_CURRENT_COMPETITOR: {
                 // const {accountId,staked,submittedWinner,vieId} = payload.data;
                 const {data} = payload
-                console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
+                // console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
                 Game.withId(data.vie_id).set('currentCompetitor',data);
                 // Competitor.upsert({accountId,staked,submittedWinner,vieId});
                 break;
@@ -132,6 +132,7 @@ Game.fields = {
     operator: attr(),
     time: attr(),
     currentCompetitor: attr(),
+    champion: attr(),
     accountId: fk('Account', 'games'),
 };
 

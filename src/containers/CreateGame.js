@@ -53,10 +53,8 @@ export default function Main(props) {
             <Grid>
                 <Grid.Row columns={2}>
                     <Grid.Column width={12}>
-                       {/* Add Memo */}
                     </Grid.Column>
                     <Grid.Column textAlign='left' width={4}>
-                        {/* Add Stake */}
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={1}>

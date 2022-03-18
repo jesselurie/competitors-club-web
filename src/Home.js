@@ -29,8 +29,8 @@ export default function Main(props) {
     const dispatch = useDispatch();
     const [account,selectedGame,game] = useReduxState();
     const contextRef = createRef()
-    console.log("HOME: ",selectedGame, game)
-    // console.log('HOME GAME: ', game);
+    // console.log("HOME: ",selectedGame, game)
+    console.log('HOME GAME: ', game);
     return (
         <div ref={contextRef}>
             <Grid stackable celled columns='equal' style={{backgroundColor:'#1E1E27'}}>
