@@ -1,21 +1,10 @@
 import React, { createRef, useState } from 'react'
 import {
   Grid,
-  List,
-  Image,
-  Card,
-  Icon,
   Button,
-  Header,
   Modal,
-  Container,
-  Placeholder,
   Table,
-  Label,
-  Menu,
-  Sticky,
   Input,
-  Segment,
 } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 // import styled from 'styled-components';
@@ -25,9 +14,8 @@ import { isValidAddressPolkadotAddress } from '../utils/index'
 import {
   addCompetitor,
   removeCompetitor,
-  setCompetitorPlace,
 } from '../redux/orm/models/competitor'
-import { useSelector, useDispatch, connect } from 'react-redux'
+import {  useDispatch } from 'react-redux'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { setPlaceAccountId, resetPlace } from '../redux/orm/models/place'
 
@@ -46,7 +34,7 @@ const rowStyles = {
   width: 343,
   height: 86,
   borderRadius: 10,
-  backgroundColor: '#1E1E27',
+  backgroundColor: '#373747',
   fontFamily: 'Montserrat',
   fontStyle: 'normal',
   fontWeight: 500,
@@ -74,7 +62,7 @@ const newPlayerModalStyle = {
   width: 400,
   height: 450,
   borderRadius: 10,
-  backgroundColor: '#1E1E27',
+  backgroundColor: '#11111E',
   fontFamily: 'Montserrat',
   fontStyle: 'normal',
   fontWeight: 500,
@@ -87,7 +75,7 @@ const modalStyle = {
   // width: 400,
   // height: 567,
   borderRadius: 10,
-  backgroundColor: '#1E1E27',
+  backgroundColor: '#11111E',
   fontFamily: 'Montserrat',
   fontStyle: 'normal',
   fontWeight: 500,
@@ -409,8 +397,8 @@ export default function Main(props) {
   }
 
   const PlayersTable = () => (
-    <Table unstackable fixed singleLine role="grid" aria-labelledby="header">
-      <Table.Header>
+    <Table unstackable fixed singleLine role="grid" aria-labelledby="header" style={{backgroundColor:'#11111E'}}>
+      <Table.Header style={{backgroundColor:'#11111E'}}>
         <Table.Row key={0}>
           <Table.HeaderCell
             textAlign={'left'}
@@ -419,10 +407,11 @@ export default function Main(props) {
             }}
             colSpan="3"
             id="header"
+            style={{backgroundColor:'#11111E'}}
           >
             <ReactSVG src={`${process.env.PUBLIC_URL}/assets/filter.svg`} />
           </Table.HeaderCell>
-          <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>
+          <Table.HeaderCell colSpan="3" id="header" textAlign={'center'} style={{backgroundColor:'#11111E', color:'white'}}>
             {' '}
             Players{' '}
           </Table.HeaderCell>
@@ -433,6 +422,7 @@ export default function Main(props) {
             onClick={e => {
               setOpenNewPlayerModal(true)
             }}
+            style={{backgroundColor:'#11111E', color:'white'}}
           >
             {action == 0 && (
               <ReactSVG src={`${process.env.PUBLIC_URL}/assets/add-item.svg`} />
@@ -447,10 +437,13 @@ export default function Main(props) {
             }}
             colSpan="3"
             id="header"
+            style={{backgroundColor:'#11111E', color:'white'}}
           >
             {'Account Id'}
           </Table.HeaderCell>
-          <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>
+          <Table.HeaderCell colSpan="3" id="header" textAlign={'center'} 
+           style={{backgroundColor:'#11111E', color:'white'}}
+           >
             {' '}
             {'Place'}
             {' '}
@@ -462,6 +455,7 @@ export default function Main(props) {
             onClick={e => {
               setOpenNewPlayerModal(true)
             }}
+            style={{backgroundColor:'#11111E', color:'white'}}
           >
            {'Status'}
           </Table.HeaderCell>
@@ -477,9 +471,18 @@ export default function Main(props) {
 
   return (
     <div ref={contextRef}>
-      <PlayerModal />
+         <PlayerModal />
       <NewPlayerModal />
+      <Grid textAlign="center" >
+      <Grid.Row>
+          <Grid.Column>
+
       {PlayersTable()}
+          </Grid.Column>
+        </Grid.Row>
+
+      </Grid>
+      
     </div>
   )
 }

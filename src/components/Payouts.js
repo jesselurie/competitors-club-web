@@ -19,7 +19,7 @@ const rowStyles = {
   width: 343,
   height: 86,
   borderRadius: 10,
-  backgroundColor: '#1E1E27',
+  backgroundColor: '#373747',
   fontFamily: 'Montserrat',
   fontStyle: 'normal',
   fontWeight: 500,
@@ -27,79 +27,11 @@ const rowStyles = {
   color: '#EEEEEE',
 }
 
-const pendingStyle = {
-  fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 500,
-  fontSize: 18,
-  color: '#A01C0E',
-}
-
-const joinedStyle = {
-  fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 500,
-  fontSize: 18,
-  color: '#207420',
-}
-
-const playersStyle = {
-  fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 600,
-  fontSize: 18,
-  color: '#EEEEEE',
-}
-
-const data = [
-  {
-    accountId: '15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq',
-    username: '@Pikachu',
-    isPending: true,
-  },
-  {
-    accountId: '15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq',
-    username: '@Ghost',
-    isPending: false,
-  },
-  {
-    accountId: '15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq',
-    username: '@NinjaTurtle',
-    isPending: false,
-  },
-]
-
-const dataPayouts = [
-  {
-    place: 1,
-    payout: 30,
-  },
-  {
-    place: 2,
-    payout: 20,
-  },
-  {
-    place: 3,
-    payout: 1,
-  },
-  {
-    place: 3,
-    payout: 1,
-  },
-  {
-    place: 3,
-    payout: 1,
-  },
-  {
-    place: 3,
-    payout: 1,
-  },
-]
 const newPlayerModalStyle = {
   width: 400,
   height: 450,
   borderRadius: 10,
-  backgroundColor: '#1E1E27',
+  backgroundColor: '#11111E',
   fontFamily: 'Montserrat',
   fontStyle: 'normal',
   fontWeight: 500,
@@ -110,7 +42,7 @@ const modalStyle = {
   width: 675,
   height: 567,
   borderRadius: 10,
-  backgroundColor: '#1E1E27',
+  backgroundColor: '#11111E',
   fontFamily: 'Montserrat',
   fontStyle: 'normal',
   fontWeight: 500,
@@ -118,25 +50,6 @@ const modalStyle = {
   color: '#EEEEEE',
 }
 
-const payoutRowStyles = {
-  width: '100%',
-  height: 50,
-  borderRadius: 10,
-  backgroundColor: '#1E1E27',
-  fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 500,
-  fontSize: 22,
-  color: '#EEEEEE',
-}
-
-const addFromAddressBook = {
-  fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 600,
-  fontSize: 22,
-  color: '#A01C0E',
-}
 
 export default function Main(props) {
   const dispatch = useDispatch()
@@ -166,7 +79,7 @@ export default function Main(props) {
         // size={'small'}
         style={newPlayerModalStyle}
       >
-        <Modal.Content style={{ backgroundColor: '#1E1E27' }}>
+        <Modal.Content style={{ backgroundColor: '#11111E' }}>
           <Grid>
             <Grid.Row>
               <Grid.Column textAlign="center">New Payout</Grid.Column>
@@ -207,7 +120,7 @@ export default function Main(props) {
             </Grid.Row>
           </Grid>
         </Modal.Content>
-        <Modal.Actions style={{ backgroundColor: '#1E1E27' }}>
+        <Modal.Actions style={{ backgroundColor: '#11111E' }}>
           <Button color="grey" onClick={() => setOpenNewPlayerModal(false)}>
             Cancel
           </Button>
@@ -242,7 +155,7 @@ export default function Main(props) {
         open={open}
         style={modalStyle}
       >
-        <Modal.Content style={{ backgroundColor: '#1E1E27' }}>
+        <Modal.Content style={{ backgroundColor: '#11111E' }}>
           <Grid>
             <Grid.Row>
               <Grid.Column textAlign="center">Edit Payout</Grid.Column>
@@ -295,7 +208,7 @@ export default function Main(props) {
           </Grid>
         </Modal.Content>
 
-        <Modal.Actions style={{ backgroundColor: '#1E1E27' }}>
+        <Modal.Actions style={{ backgroundColor: '#11111E' }}>
           <Button color="grey" onClick={() => setOpen(false)}>
             Cancel
           </Button>
@@ -348,8 +261,8 @@ export default function Main(props) {
 
   const PayoutsTable = () => (
     // <Container>
-      <Table unstackable fixed singleLine role="grid" aria-labelledby="header" >
-        <Table.Header>
+      <Table unstackable fixed singleLine role="grid" aria-labelledby="header"style={{backgroundColor:'#11111E'}} >
+        <Table.Header >
           <Table.Row>
             <Table.HeaderCell
               textAlign={'left'}
@@ -358,6 +271,7 @@ export default function Main(props) {
               }}
               colSpan="3"
               id="header"
+              style={{backgroundColor:'#11111E', color:'white'}}
             >
               {action == 0 && (
                 <ReactSVG
@@ -365,7 +279,7 @@ export default function Main(props) {
                 />
               )}
             </Table.HeaderCell>
-            <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>
+            <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}  style={{backgroundColor:'#11111E', color:'white'}}>
             {' '}
             Payouts{' '}
             </Table.HeaderCell>
@@ -376,6 +290,7 @@ export default function Main(props) {
               onClick={e => {
                 console.log('clicked filter')
               }}
+              style={{backgroundColor:'#11111E', color:'white'}}
             >
               <ReactSVG src={`${process.env.PUBLIC_URL}/assets/filter.svg`} />
             </Table.HeaderCell>
@@ -388,10 +303,11 @@ export default function Main(props) {
               }}
               colSpan="3"
               id="header"
+              style={{backgroundColor:'#11111E', color:'white'}}
             >
               {'Place'}
             </Table.HeaderCell>
-            <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}>
+            <Table.HeaderCell colSpan="3" id="header" textAlign={'center'}  style={{backgroundColor:'#11111E', color:'white'}}>
             {' '}
             {' '}
             </Table.HeaderCell>
@@ -402,6 +318,7 @@ export default function Main(props) {
               onClick={e => {
                 console.log('clicked filter')
               }}
+              style={{backgroundColor:'#11111E', color:'white'}}
             >
               {'CCLUB'}
             </Table.HeaderCell>

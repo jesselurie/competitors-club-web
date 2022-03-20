@@ -53,7 +53,7 @@ const styles = {
     width: 675,
     height: 567,
     borderRadius: 10,
-    backgroundColor: '#1E1E27',
+    backgroundColor: '#11111E',
     fontFamily: 'Montserrat',
     fontStyle: 'normal',
     fontWeight: 500,
@@ -84,7 +84,7 @@ export default function Main(props) {
         // size={'small'}
         style={styles.modalStyle}
       >
-        <Modal.Content style={{ backgroundColor: '#1E1E27' }}>
+        <Modal.Content style={{ backgroundColor: '#11111E' }}>
           <Grid>
             <Grid.Row verticalAlign="top">
               <Grid.Column textAlign="center">Entry Fee</Grid.Column>
@@ -116,7 +116,7 @@ export default function Main(props) {
           </Grid>
         </Modal.Content>
 
-        <Modal.Actions style={{ backgroundColor: '#1E1E27' }}>
+        <Modal.Actions style={{ backgroundColor: '#11111E' }}>
           <Button color="grey" onClick={() => setOpen(false)}>
             Cancel
           </Button>

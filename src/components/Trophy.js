@@ -13,11 +13,11 @@ const styles = {
 //Create a new memo or render an existing memo. 
 export default function Main(props) {
     const contextRef = createRef()
-   
+    // style={{backgroundColor:'#11111E'}}
 
     return (
     <div ref={contextRef}>
-        <Container style= {{backgroundColor:'#1E1E27',height: 185, width:177}}>
+        <Container style= {{backgroundColor:'#11111E',height: 185, width:177}}>
         <ReactSVG 
              src={`${process.env.PUBLIC_URL}/assets/trophy-icon.svg`}
           />   

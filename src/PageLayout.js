@@ -48,7 +48,7 @@ function Main() {
   } 
   
   return (
-    <div style={{ backgroundColor: '#1E1E27'}}>
+    <div style={{ backgroundColor: '#11111E'}}>
       <Topbar/>      
       <DeveloperConsole />
     </div>

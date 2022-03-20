@@ -67,7 +67,7 @@ export default function Main(props) {
             // size={'small'}
             style={styles.modalStyle}
           >
-            <Modal.Content style={{backgroundColor:'#1E1E27'}}>
+            <Modal.Content style={{backgroundColor:'#11111E'}}>
               <Grid stretched>
                 <Grid.Row verticalAlign='top'>
                     <Grid.Column textAlign='center'>
@@ -82,7 +82,7 @@ export default function Main(props) {
               </Grid>
             </Modal.Content>
        
-            <Modal.Actions  style={{backgroundColor:'#1E1E27'}}>
+            <Modal.Actions  style={{backgroundColor:'#11111E'}}>
               <Button color='grey' onClick={() => setOpen(false)}>
                 Cancel
               </Button>

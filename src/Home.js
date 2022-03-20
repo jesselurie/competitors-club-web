@@ -29,21 +29,21 @@ export default function Main(props) {
     <div ref={contextRef}>
       <Grid
         stackable
-        celled
+        // celled
         columns="equal"
-        style={{ backgroundColor: '#1E1E27' }}
+        style={{ backgroundColor: '#11111E', height: 1000}}
         >
-        <Grid.Row columns={3}>
-          <Grid.Column>
+        <Grid.Row columns={3} verticalAlign={'middle'}>
+          <Grid.Column textAlign="center" stretched>
             <Players action={selectedGame} game={game} />
           </Grid.Column>
-          <Grid.Column textAlign="center">
+          <Grid.Column textAlign="center" stretched>
             <EntryFee action={selectedGame} game={game} />
             <Trophy />
             <Memo action={selectedGame} game={game} />
             <Actions action={selectedGame} game={game} competitorData={account?.competitorData}/>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column textAlign="center" stretched>
             <Payouts action={selectedGame} game={game} />
           </Grid.Column>
         </Grid.Row>

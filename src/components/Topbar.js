@@ -60,8 +60,8 @@ function Main(props) {
     // paddingTop: '1em',
     // paddingBottom: '1em',
     fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontStyle: 'bold',
+    fontWeight: '700',
     fontSize: 18,
     color:'#213830',
   };

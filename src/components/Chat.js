@@ -75,7 +75,7 @@ export default function Main(props) {
   
     const ChatTable = () => (
       // <div style= {{backgroundColor:'#373747',height: 214, width:544}}>               
-        <Table unstackable fixed singleLine  style= {{backgroundColor:'#373747',height: 376, width:'100%'}}>
+        <Table unstackable fixed singleLine  style= {{backgroundColor:'#11111E',height: 376, width:'100%'}} >
           <Table.Body>
             {dataChat.map(({accountId,username,message,date},index)=>{
               return chatRow(accountId,username,message,date,index);
@@ -89,7 +89,7 @@ export default function Main(props) {
       <div ref={contextRef}>
         {/* style= {{backgroundColor:'#1E1E27',width:'100%'}} */}
         {/* <Container > */}
-          <Grid stretched>
+          <Grid stretched   style={{ backgroundColor: '#11111E' }}>
             <Grid.Row>
               <Grid.Column>
                 {/* <Container style={{height:376}}> */}
