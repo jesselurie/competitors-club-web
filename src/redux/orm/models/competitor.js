@@ -57,7 +57,6 @@ class Competitor extends Model{
                 const isPending = true;
                 const place = 0;
                 const payout = 0;
-                // console.log("P: ",payload);
                 //check if competitor id and vie id exists 
                 const exists = Competitor.exists({accountId,vieId});
                 !exists && Competitor.create({accountId,vieId,isPending,place, payout});
@@ -65,26 +64,22 @@ class Competitor extends Model{
             }
             case REMOVE_COMPETITOR: {
                 const {id} = payload;
-                const c = Competitor.get({accountId:id});
-                c.delete();
-                // Competitor.withId(id).delete();
+                console.log(id)
+                Competitor.withId(id).delete()                
                 break;
             }
             case PUT_COMPETITOR_STATE: {
-                // const {accountId,staked,submittedWinner,vieId} = payload.data;
-                const {data} = payload
-                // console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
-                // Competitor.upsert({accountId,staked,submittedWinner,vieId});
+                //For importing competitors staked information
+                const {challengedCompetitor,accountId} = payload.data
+                const {staked, submitted_winner, vie_id} = challengedCompetitor;
+                Competitor.withId(accountId).set('staked',staked);
+                Competitor.withId(accountId).set('submittedWinner',submitted_winner);
                 break;
             }
             case SET_COMPETITOR_PLACE: {
-                // const {accountId,staked,submittedWinner,vieId} = payload.data;
                 const {placeId,spot,payout, selectedPlayer} = payload.data
-                // console.log('COMPETITOR PLACE: ', placeId,spot,payout)
                 Competitor.withId(selectedPlayer.id).set('place',spot);
                 Competitor.withId(selectedPlayer.id).set('payout',payout);
-                // console.log("PUT_COMPETITOR_STATE_FROM_REQUEST: ",data);
-                // Competitor.upsert({accountId,staked,submittedWinner,vieId});
                 break;
             }
             break;
@@ -94,7 +89,7 @@ class Competitor extends Model{
 
 Competitor.modelName= 'Competitor';
 Competitor.options = {
-    idAttribute: 'id',
+    idAttribute: 'accountId',
 };
 
 Competitor.fields = {

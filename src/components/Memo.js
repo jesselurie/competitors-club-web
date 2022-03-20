@@ -105,13 +105,17 @@ export default function Main(props) {
         <MemoModal/>
           <Grid textAlign='center'>
               <Grid.Row columns={2}>
-                  <Grid.Column textAlign='left' width={12}>
+                  <Grid.Column textAlign='center' width={12}>
                       <p style={styles.memo}>
-                        {action != 0 && (hexToAscii(game.memo))}
-                        {action == 0 && (game.memo)}
+                        {/* {game.memo} */}
+                        {/* {action !== 0 && (hexToAscii(game.memo))} */}
+                        {/* {action === 0 && game.memo} */}
+                        {/* {action == 0 && (game?.memo)} */}
+                        {game.memo  && action !==0 &&  (hexToAscii(game.memo))}
+                        {game.memo !== "" && action ===0 &&  game.memo}
                       </p>
                   </Grid.Column>
-                  <Grid.Column textAlign='right' width={4}>
+                  <Grid.Column textAlign='center' width={4}>
                     {action == 0 && ( <ReactSVG 
                     onClick={(e)=>{setOpen(true)}}
                       src={`${process.env.PUBLIC_URL}/assets/edit-icon.svg`}

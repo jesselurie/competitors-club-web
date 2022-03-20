@@ -1,27 +1,14 @@
 
+/* global BigInt */
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import {hexToU8a, isHex } from '@polkadot/util';
 
-import { Keyring } from '@polkadot/api';
-
-// * Turn an address string tagged with either 'legacy:' or 'bip39:' prefix
-// * to an object, marking if it was generated with BIP39.
-// */
-export function untagAddress(address) {
-   let bip39 = false;
-
-   const colonIdx = address.indexOf(':');
-
-   if (colonIdx !== -1) {
-       bip39 = address.substring(0, colonIdx) === 'bip39';
-       address = address.substring(colonIdx + 1);
-   }
-
-   return {
-       address,
-       bip39
-   };
-}
+export const toBalance = value => {
+    var balance = BigInt(value)
+    var multiplier = BigInt(1000000000000)
+    var total = balance * multiplier
+    return total.toLocaleString('fullwide', { useGrouping: false })
+  }
 
 export function toHex(x) {
    return x
@@ -44,8 +31,6 @@ export const checksummedAddress = (address, hash) => {
 
 
 //len 12, 24
-
-
 export const hexToAscii = (str1) => {
 	var hex  = str1.toString();
 	var str = '';
@@ -78,13 +63,13 @@ export const isValidAddressPolkadotAddress = (address) => {
 export const ordinal_suffix_of = (i)=> {
   var j = i % 10,
       k = i % 100;
-  if (j == 1 && k != 11) {
+  if (j === 1 && k !== 11) {
       return i + "st";
   }
-  if (j == 2 && k != 12) {
+  if (j === 2 && k !== 12) {
       return i + "nd";
   }
-  if (j == 3 && k != 13) {
+  if (j === 3 && k !== 13) {
       return i + "rd";
   }
   return i + "th";

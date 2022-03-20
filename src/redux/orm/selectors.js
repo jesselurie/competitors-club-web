@@ -121,7 +121,6 @@ export const gameSelector = (vieId) => {
         session => {
             const currentGame = session.Game.filter(g=>g.vieId===vieId).toModelArray().map(game => {
                 const { ref } = game;
-                // console.log('REF: ', ref);
                 return {
                     ...ref,
                     competitors: game.competitors.toRefArray().map(competitor => {return {id:competitor.id,accountId:competitor.accountId,staked:competitor.staked,submittedWinner:competitor.submittedWinner, isPending: competitor.isPending, place: competitor.place} }),

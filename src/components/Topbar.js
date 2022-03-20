@@ -57,16 +57,17 @@ function Main(props) {
   const blocknumberStyles = {
     backgroundColor: '#11111E',
     borderColor: '#11111E',
-    paddingTop: '1em',
-    paddingBottom: '1em',
+    // paddingTop: '1em',
+    // paddingBottom: '1em',
     fontFamily: 'Montserrat',
     fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 20,
+    fontWeight: '400',
+    fontSize: 18,
     color:'#213830',
   };
   const fixedMenuStyle = {
     backgroundColor: '#11111E',
+    
     // border: '1px solid #ddd',
     // boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
   }
@@ -80,7 +81,7 @@ function Main(props) {
 
     <Menu.Menu position="left" style={{ alignItems: 'center' }}>
     <Image size='medium'src={`${process.env.PUBLIC_URL}/assets/cclub-logo-horizontal.png`} />
-        <p style={blocknumberStyles}># {blocknumber}</p>
+      <p style={blocknumberStyles}># {blocknumber}</p>
     </Menu.Menu>
       <Menu.Menu position="right" style={{ alignItems: 'center' }}>
         {!currentAccount ? (

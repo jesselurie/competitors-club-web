@@ -88,7 +88,7 @@ export default function Main(props) {
     return (
       <div ref={contextRef}>
         {/* style= {{backgroundColor:'#1E1E27',width:'100%'}} */}
-        <Container >
+        {/* <Container > */}
           <Grid stretched>
             <Grid.Row>
               <Grid.Column>
@@ -111,7 +111,7 @@ export default function Main(props) {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        </Container>
+        {/* </Container> */}
       </div>
     )
 }

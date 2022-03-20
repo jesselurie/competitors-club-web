@@ -79,10 +79,10 @@ class Place extends Model{
             }
             case RESET_PLACE: {
                 console.log("RESET PLACE")
-                const {placeId,spot,payout, selectedPlayer, vieId} = payload.data;
+                const {placeId,spot,payout, accountId, vieId} = payload.data;
                 Place.withId(placeId).set("accountId","");
-                session.Competitor.withId(selectedPlayer.id).set('place',0);
-                session.Competitor.withId(selectedPlayer.id).set('payout',0);
+                session.Competitor.withId(accountId).set('place',0);
+                session.Competitor.withId(accountId).set('payout',0);
                 if(spot == 1) {
                     session.Game.withId(vieId).set('champion',"")
                 }
@@ -91,12 +91,18 @@ class Place extends Model{
             }
             case SET_PLACE_ACCOUNT_ID: {
                 console.log("SET_PLACE_ACCOUNT_ID PLACE")
-                const {placeId,spot,payout, selectedPlayer, vieId} = payload.data;
-               
+                const {placeId,spot,payout, accountId, vieId} = payload.data;
                 const selectedPlace = Place.withId(placeId);
-                if (selectedPlace.accountId !== ""){
-                    const p = session.Competitor.get({accountId:selectedPlace.accountId})
-                    console.log("NOT NULL: ",p);
+                console.log("PLACE: ",placeId,spot,payout, accountId, vieId);
+                console.log("VIEID: ", vieId);
+                console.log("spot: ", spot);
+                console.log("payout: ", payout);
+                console.log("selectedPlayer: ", accountId);
+                // if (selectedPlace.accountId){
+                    // const p = session.Competitor.get({accountId:selectedPlace.accountId})
+                    // console.log("NOT NULL: ",placeId,spot,payout, selectedPlayer, vieId);
+                    // console.log("NOT NULL: ",p);
+
                     //Place has already been selected for another competitor
                     //remove that competitors place and set to the new competitor 
                     // Place.withId(placeId).set("accountId","selectedPlayer.accountId");
@@ -105,14 +111,14 @@ class Place extends Model{
                     // if(spot == 1) {
                     //     session.Game.withId(vieId).set('champion',selectedPlayer.accountId)
                     // }
-                }else {
-                    Place.withId(placeId).set("accountId",selectedPlayer.accountId);
-                    session.Competitor.withId(selectedPlayer.id).set('place',spot);
-                    session.Competitor.withId(selectedPlayer.id).set('payout',payout);
-                    if(spot == 1) {
-                        session.Game.withId(vieId).set('champion',selectedPlayer.accountId)
-                    }
+                // }else {
+                Place.withId(placeId).set("accountId",accountId);
+                session.Competitor.withId(accountId).set('place',spot);
+                session.Competitor.withId(accountId).set('payout',payout);
+                if(spot == 1) {
+                    session.Game.withId(vieId).set('champion',accountId)
                 }
+                // }
                 
               
                 break;

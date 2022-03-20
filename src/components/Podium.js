@@ -135,7 +135,7 @@ export default function Main(props) {
 
     return (
     <div ref={contextRef}>
-      <Container>
+      {/* <Container> */}
         <Grid>
             <Grid.Row columns={1}>
                   <Grid.Column width={4} >
@@ -164,7 +164,7 @@ export default function Main(props) {
                   </Grid.Column>
             </Grid.Row>
         </Grid>
-       </Container>
+       {/* </Container> */}
     </div>
     )
 }

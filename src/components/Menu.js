@@ -26,7 +26,7 @@ export default function Main({children}) {
     // const { activeItem } = this.state
 
     return (
-      <Container>
+      // <Container>
         <Grid>
           <Grid.Column>
         <Menu vertical inverted widths={4} style={{backgroundColor:'#11111E'}}>
@@ -77,6 +77,6 @@ export default function Main({children}) {
         </Menu>
         </Grid.Column>
         </Grid>
-      </Container>
+      // </Container>
     )
 }

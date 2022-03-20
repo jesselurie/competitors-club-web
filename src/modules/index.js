@@ -179,13 +179,12 @@ export const useLiveData = (props) => {
 
     const queryCompetitors = async (competitors) => {
         try {
-            // console.log(competitors)
             const promises = competitors.map(async (t)=>{
                 const competitor = await api.query.vies.competitors(t);
                 return competitor;
             });
             return Promise.all(promises).then(function(results) {
-                return results;
+                return [results,competitors];
             });    
         }catch(err){
             // console.log("ERROR: ",err);
@@ -195,8 +194,6 @@ export const useLiveData = (props) => {
 
     const reload = async () => {
         let competitor;
-        let vies;
-        let competitors;
         const isOperator = await queryOperator();
         if (!isOperator) {
             competitor = await queryCompetitor();
@@ -216,7 +213,7 @@ export const useLiveData = (props) => {
         // console.log('accountData: ',accountData);
         // console.log('winsData: ',winsData);
         // console.log('trophiesData: ',trophiesData);
-        console.log(currentAccount.address)
+        // console.log(currentAccount.address)
         dispatch(createUser(currentAccount.address,null,null))
         dispatch(putAccountData(currentAccount.address,accountData));
         dispatch(addAccountInfo(accountData,currentAccount.address));
@@ -230,14 +227,22 @@ export const useLiveData = (props) => {
         }
 
         dispatch(putCompetitorData(currentAccount.address,competitor));  
-        dispatch(putCompetitorState(competitor))
+        if(vie.competitors.length > 0){
+            //loop and query competitors
+            const [competitorsData,competitors] = await queryCompetitors(vie.competitors)
+            competitorsData.map((c,index)=>{
+                let challengedCompetitor = JSON.parse(c.toString())
+                dispatch(putCompetitorState({challengedCompetitor,accountId:competitors[index]}))    
+            })
+            
+        }
+        
         setLiveData(true);
     };
 
 
     useEffect(()=> {
         if (keyringState == 'READY' && apiState == 'READY' && currentAccount?.address !== null) {
-            console.log('here');
             reload();  
         }else {
             

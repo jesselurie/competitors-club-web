@@ -49,7 +49,7 @@ export default function Main(props) {
     const {memo,stake,totalStake} = props;
     return (
     <div ref={contextRef}>
-        <Container>
+        {/* <Container> */}
             <Grid>
                 <Grid.Row columns={2}>
                     <Grid.Column width={12}>
@@ -65,7 +65,7 @@ export default function Main(props) {
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
-        </Container>
+        {/* </Container> */}
     </div>
     )
 }
