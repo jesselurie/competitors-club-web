@@ -324,7 +324,9 @@ export default function Main(props) {
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-        <Table.Body>
+        <Table.Body
+          style={{backgroundColor:'#11111E'}}
+        >
           {game?.podium?.map((place, index) => {
             return row(place, index)
           })}
@@ -337,7 +339,14 @@ export default function Main(props) {
     <div ref={contextRef} >
       <PayoutModal />
       <NewPayoutModal />
+      <Grid textAlign="center"  style={{backgroundColor:'#11111E'}}>
+      <Grid.Row>
+          <Grid.Column>
       {PayoutsTable()}
+      </Grid.Column>
+        </Grid.Row>
+
+      </Grid>
     </div>
   )
 }

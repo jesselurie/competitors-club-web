@@ -461,7 +461,9 @@ export default function Main(props) {
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body>
+      <Table.Body
+      style={{backgroundColor:'#11111E'}}
+      >
         {game?.competitors?.map((player, index) => {
           return row(player, index)
         })}
