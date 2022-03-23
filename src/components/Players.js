@@ -196,6 +196,7 @@ export default function Main(props) {
                   onChange={(e, data) => {
                     setPlayerAccountId(data.value)
                   }}
+                  placeholder={'AccountId'}
                 >
                   <ReactSVG
                     src={`${process.env.PUBLIC_URL}/assets/user-icon.svg`}
@@ -204,7 +205,7 @@ export default function Main(props) {
                 </Input>
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row verticalAlign="middle">
+            {/* <Grid.Row verticalAlign="middle">
               <Grid.Column textAlign="center">
                 <Input iconPosition="left" placeholder="Nickname">
                   <ReactSVG
@@ -223,7 +224,7 @@ export default function Main(props) {
               <Grid.Column width={12}>
                 <p style={addFromAddressBook}>Add From Address Book</p>
               </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> */}
           </Grid>
         </Modal.Content>
 

@@ -15,6 +15,7 @@ import {
 import { useSubstrate, useSubstrateState } from '../substrate-lib'
 import useBlockNumber from './Blocknumber'
 import { ReactSVG } from 'react-svg'
+import Nav from './Menu';
 // import BlockNumber from './Blocknumber'
 
 const CHROME_EXT_URL =
@@ -75,51 +76,55 @@ function Main(props) {
     <Menu
     attached="top"
     tabular
-    fluid
+    // fluid
     stackable
-    style={fixedMenuStyle}>
-
-    <Menu.Menu position="left" style={{ alignItems: 'center' }}>
+    style={fixedMenuStyle}
+    widths={3}>
+    <Menu.Item position="left" style={{ alignItems: 'center' }}>
     <Image size='medium'src={`${process.env.PUBLIC_URL}/assets/cclub-logo-horizontal.png`} />
       <p style={blocknumberStyles}># {blocknumber}</p>
-    </Menu.Menu>
-      <Menu.Menu position="right" style={{ alignItems: 'center' }}>
-        {!currentAccount ? (
-          <span>
-            Create an account with Polkadot-JS Extension (
-            <a target="_blank" rel="noreferrer" href={CHROME_EXT_URL}>
-              Chrome
-            </a>
-            ,&nbsp;
-            <a target="_blank" rel="noreferrer" href={FIREFOX_ADDON_URL}>
-              Firefox
-            </a>
-            )&nbsp;
-          </span>
-        ) : null}
-        <CopyToClipboard text={acctAddr(currentAccount)}>
-          <Button
-            basic
-            circular
-            size="large"
-            icon="user"
-            color={currentAccount ? 'green' : 'red'}
-          />
-        </CopyToClipboard>
-        <Dropdown
-          search
-          selection
-          clearable
-          placeholder="Switch Account"
-          options={keyringOptions}
-          onChange={(_, dropdown) => {
-            onChange(dropdown.value)
-          }}
-          value={acctAddr(currentAccount)}
-          style={{backgroundColor:'#11111E',color: '#EEEEEE', fontFamily: 'Montserrat',fontWeight: 'medium',fontSize: 14}}
+    </Menu.Item>
+    <Menu.Item >
+    {!currentAccount ? (
+        <span>
+          Create an account with Polkadot-JS Extension (
+          <a target="_blank" rel="noreferrer" href={CHROME_EXT_URL}>
+            Chrome
+          </a>
+          ,&nbsp;
+          <a target="_blank" rel="noreferrer" href={FIREFOX_ADDON_URL}>
+            Firefox
+          </a>
+          )&nbsp;
+        </span>
+      ) : null}
+      <CopyToClipboard text={acctAddr(currentAccount)}>
+        <Button
+          basic
+          circular
+          size="large"
+          icon="user"
+          color={currentAccount ? 'green' : 'red'}
         />
-        <BalanceAnnotation />
-      </Menu.Menu>
+      </CopyToClipboard>
+      <Dropdown
+        search
+        selection
+        clearable
+        placeholder="Switch Account"
+        options={keyringOptions}
+        onChange={(_, dropdown) => {
+          onChange(dropdown.value)
+        }}
+        value={acctAddr(currentAccount)}
+        style={{backgroundColor:'#11111E',color: '#EEEEEE', fontFamily: 'Montserrat',fontWeight: 'medium',fontSize: 14}}
+      />
+      <BalanceAnnotation />
+    </Menu.Item>
+    
+    <Menu.Item position="right" style={{ alignItems: 'center' }}>
+    <Nav/>
+      </Menu.Item>
     </Menu>
   )
 }

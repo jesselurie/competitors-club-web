@@ -10,7 +10,7 @@ export default class MenuExampleInvertedPointing extends Component {
     const { activeItem } = this.state
 
     return (
-      <Menu inverted pointing vertical >
+      <Menu inverted pointing >
         <Menu.Item
           name='home'
           active={activeItem === 'home'}
@@ -18,7 +18,7 @@ export default class MenuExampleInvertedPointing extends Component {
         >
             <Image
                 src={`${process.env.PUBLIC_URL}/assets/home.svg`}
-                size="medium"
+                size={'tiny'}
                 fluid
             />
             
@@ -30,7 +30,7 @@ export default class MenuExampleInvertedPointing extends Component {
         >
             <Image
                 src={`${process.env.PUBLIC_URL}/assets/tokens.svg`}
-                size="medium"
+                size={'tiny'}
                 fluid
             />
         </Menu.Item>
@@ -40,7 +40,7 @@ export default class MenuExampleInvertedPointing extends Component {
           onClick={this.handleItemClick}>
           <Image
                 src={`${process.env.PUBLIC_URL}/assets/trophy.svg`}
-                size="medium"
+                size={'tiny'}
                 fluid
            />
         </Menu.Item>
@@ -51,7 +51,7 @@ export default class MenuExampleInvertedPointing extends Component {
         >
              <Image
                 src={`${process.env.PUBLIC_URL}/assets/dice.svg`}
-                size="medium"
+                size={'tiny'}
                 fluid
             />
         </Menu.Item>

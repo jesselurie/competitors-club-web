@@ -25,7 +25,7 @@ export default function Main(props) {
   })
 
   return (
-    <Grid.Column width={8}>
+    <Grid.Column stretched>
       <h1>Transfer</h1>
       <Form>
         <Form.Field>
@@ -38,7 +38,7 @@ export default function Main(props) {
             style={{ marginLeft: 0, marginTop: '.5em' }}
           >
             <Icon name="hand point right" />
-            Transfer more than the existential amount for account with 0 balance
+              Transfer more than the existential amount for account with 0 balance
           </Label>
         </Form.Field>
 

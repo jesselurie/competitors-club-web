@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
-export default function Main({children}) {
+export default function Main(props) {
   const [activeItem, setActiveItem] = useState('home');
   let navigate = useNavigate();
   let location = useLocation();
@@ -26,10 +26,7 @@ export default function Main({children}) {
     // const { activeItem } = this.state
 
     return (
-      // <Container>
-        <Grid>
-          <Grid.Column>
-        <Menu vertical inverted widths={4} style={{backgroundColor:'#11111E'}}>
+        <Menu inverted style={{backgroundColor:'#11111E'}} stackable>
           <Menu.Item
             name='home'
             active={activeItem === 'home'}
@@ -38,7 +35,7 @@ export default function Main({children}) {
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/home.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
               />
               
           </Menu.Item>
@@ -50,7 +47,7 @@ export default function Main({children}) {
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/tokens.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
               />
           </Menu.Item>
           <Menu.Item
@@ -60,7 +57,7 @@ export default function Main({children}) {
             <Image
                   src={`${process.env.PUBLIC_URL}/assets/trophy.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
             />
           </Menu.Item>
           <Menu.Item
@@ -71,12 +68,9 @@ export default function Main({children}) {
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/dice.svg`}
                   size="tiny"
-                  fluid
+                  // fluid
               />
           </Menu.Item>
         </Menu>
-        </Grid.Column>
-        </Grid>
-      // </Container>
     )
 }
