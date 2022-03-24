@@ -5,6 +5,7 @@ import { web3FromSource } from '@polkadot/extension-dapp'
 
 import { useSubstrateState } from '../'
 import utils from '../utils'
+import {checkEventsForErrors,humanPalletErrors} from '../../utils/index'
 
 function TxButton({
   label,
@@ -58,10 +59,27 @@ function TxButton({
     return [address, { signer: injector.signer }]
   }
 
-  const txResHandler = ({ status }) =>
-    status.isFinalized
-      ? setStatus(`😉 Finalized. Block hash: ${status.asFinalized.toString()}`)
-      : setStatus(`Current transaction status: ${status.type}`)
+  const txResHandler = ({ events = [], status })  => {
+    if (status.isInBlock) {           
+      events.forEach(({ event: { data, method, section }, phase }) => {
+        const a = checkEventsForErrors(section,method,data.toJSON());
+        if (a) {
+          // setLoading(false);
+          // alert("ERROR: " + a.module + " - " + a.error);
+          alert(humanPalletErrors[a.error])
+          // setLoading(false);
+          console.log(humanPalletErrors[a.error])
+        }
+      });
+    } else if (status.isFinalized) {
+      // console.log('Finalized: ',status.asFinalized.toHex())
+      // alertAndCopyTxURL(status.asFinalized.toHex());
+    }
+    return  status.isFinalized
+    ? setStatus(`😉 Finalized. Block hash: ${status.asFinalized.toString()}`)
+    : setStatus(`Current transaction status: ${status.type}`)
+  }
+   
 
   const txErrHandler = err =>
     setStatus(`😞 Transaction Failed: ${err.toString()}`)

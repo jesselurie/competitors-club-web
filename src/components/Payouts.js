@@ -5,7 +5,7 @@ import { Grid, Button, Modal, Container, Table, Input } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import { addSpot, updatePayout, removeSpot } from '../redux/orm/models/place'
 import { formatBalance } from '@polkadot/util'
-import { toBalance } from '../utils'
+import { toBalance,ordinal_suffix_of } from '../utils'
 import './payouts.css'
 
 /**
@@ -175,7 +175,7 @@ export default function Main(props) {
               <Grid.Column textAlign="center">
                 <Input
                   iconPosition="left"
-                  placeholder={selectedPayout?.spot}
+                  placeholder={selectedPayout?.spot?ordinal_suffix_of(selectedPayout?.spot):0}
                   disabled
                 >
                   <ReactSVG
@@ -250,7 +250,7 @@ export default function Main(props) {
             console.log('clicked icon for copying: ', index)
           }}
         >
-          {spot}
+          {spot?ordinal_suffix_of(spot):"Nth"}
         </Table.Cell>
         <Table.Cell width={4} textAlign={'center'} onClick={e => {}}>
           {formatBalance(payout, { withSi: false, forceUnit: '-' }, 12)}

@@ -121,7 +121,6 @@ function Main(props) {
       />
       <BalanceAnnotation />
     </Menu.Item>
-    
     <Menu.Item position="right" style={{ alignItems: 'center' }}>
     <Nav/>
       </Menu.Item>

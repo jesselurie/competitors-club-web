@@ -99,7 +99,7 @@ export const checkEventsForErrors = (section,method,data) => {
 
  // Add description for each error to display to user.
 export const palletErrors  = [
-        "Overflow",
+    "Overflow",
 		"NoneValue",
 		"StorageOverflow",
 		"PayoutRatioNotEqualTo100",
@@ -120,10 +120,33 @@ export const palletErrors  = [
 		"RemoveOperatorFromCompetitors",
 ];
 
+ // Add description for each error to display to user.
+ export const humanPalletErrors  = {
+  "Overflow": "",
+  "NoneValue": "",
+  "StorageOverflow": "",
+  "PayoutRatioNotEqualTo100": "The payouts must sum to the total buyins.",
+  "PodiumSpotsOutOfRange": "The podium spots must be submitted in the correct range.",
+  "VieRequiresAtLeast2Participants": "The competition must have at least 2 competitors including the operator.",
+  "OperatorCanOnlyBeInOneVieAtATime": "The operator can only be in one competition at a time.",
+  "CompetitorCanOnlyBeInOneVieAtATime": "The competitor can only be in one competition at a time.",
+  "CompetitorNotInvitedToJoinVie": "This competitor is not invited to join any competitions at the moment.",
+  "VieDoesNotExist": "The competition does not exist.",
+  "OperatorDoesNotExist": "The operator does not exist.",
+  "PodiumSpotsMustMatchPodiumStructure": "The places must match the defined podium.",
+  "PodiumRewardSumMustEqualAllCompetitorsStake": "The payouts have to equal the sum of all the buyins.",
+  "DuplicateCompetitorsAreNotAllowed": "Check the competitors. There are duplicates and that is not allowed.",
+  "PodiumMustOnlyHaveCompetitorsInVie": "Attempting to submit podium with a competitor that is not in the competition.",
+  "CompetitorAlreadyStaked": "Competitor has already joined the competition.",
+  "CompetitorsMustAllJoinToFinishTheVie": "Dear operator, all the competitors must join for your to finish the competition",
+  "MemoTooBig": "The memo can only me 256 characters or less.",
+  "RemoveOperatorFromCompetitors": "Remove the operator from the competitors. ",
+ };
+
 // Add description for each module to display to user.
 export const runtimeModules = [
-        "runtime moduels start with index 1. hack. hi.",
-        "System",
+    "runtime moduels start with index 1. hack. hi.",
+    "System",
 		"RandomnessCollectiveFlip",
 		"Timestamp",
 		"Aura",

@@ -228,11 +228,9 @@ export default function Main(props) {
     <div ref={contextRef}>
     <Container style={{backgroundColor:'#11111E',height:1000}} fluid>
       <TransactionModal />
-      <Grid textAlign="center" style={styles.grid} verticalAlign={'middle'} 
+      <Grid textAlign="center" style={styles.grid} verticalAlign={'center'} 
          stackable
-         // celled
-         columns="equal"
-        //  style={{ backgroundColor: '#11111E', height: 1000}}
+         columns={'equal'}
       >
         <Grid.Row>
           <Grid.Column textAlign="center">

@@ -1,23 +1,18 @@
 import React, { createRef, useState } from 'react'
-import {
-  Grid,
-  Button,
-  Modal,
-  Table,
-  Input,
-} from 'semantic-ui-react'
+import { Grid, Button, Modal, Table, Input } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 // import styled from 'styled-components';
 import Identicon from '@polkadot/react-identicon'
 import { ReactSVG } from 'react-svg'
-import { isValidAddressPolkadotAddress } from '../utils/index'
 import {
-  addCompetitor,
-  removeCompetitor,
-} from '../redux/orm/models/competitor'
-import {  useDispatch } from 'react-redux'
+  isValidAddressPolkadotAddress,
+  ordinal_suffix_of,
+} from '../utils/index'
+import { addCompetitor, removeCompetitor } from '../redux/orm/models/competitor'
+import { useDispatch } from 'react-redux'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { setPlaceAccountId, resetPlace } from '../redux/orm/models/place'
+import { formatBalance } from '@polkadot/util'
 
 import './players.css'
 
@@ -121,7 +116,6 @@ export default function Main(props) {
       <Table.Row
         style={payoutRowStyles}
         onClick={e => {
-          console.log('SELECTED PLAYER: ', selectedPlayer)
           if (selectedPlayer.place == spot) {
             //check if other player has already been placed
             // remove other player with same place and set the current selected one
@@ -150,9 +144,11 @@ export default function Main(props) {
       >
         <Table.Cell textAlign={'left'}>
           <ReactSVG src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`} />
-          {spot}
+          {ordinal_suffix_of(spot)}
         </Table.Cell>
-        <Table.Cell textAlign={'center'}>{payout}</Table.Cell>
+        <Table.Cell textAlign={'center'}>
+          {formatBalance(payout, { withSi: false, forceUnit: '-' }, 12)}
+        </Table.Cell>
       </Table.Row>
     )
   }
@@ -287,7 +283,6 @@ export default function Main(props) {
                   />
                 )}
               </Grid.Column>
- 
             </Grid.Row>
             <Grid.Row>
               <Grid.Column textAlign="center">
@@ -375,8 +370,7 @@ export default function Main(props) {
           <Identicon value={accountId} size={36} theme={'polkadot'} />
         </Table.Cell>
         <Table.Cell textAlign={'right'} onClick={e => {}}>
-          {place && place}
-          {/* {!player.place && ('no place')} */}
+          {place ? ordinal_suffix_of(place) : 'Nth'}
         </Table.Cell>
         <Table.Cell textAlign={'center'} onClick={e => {}}>
           {username}
@@ -384,7 +378,7 @@ export default function Main(props) {
         {/* <Table.Cell  textAlign={'right'} onClick={(e)=>{}}>
           <ReactSVG 
              src={`${process.env.PUBLIC_URL}/assets/empty-ribbon.svg`}
-          />
+          /> mm
           </Table.Cell> */}
         <Table.Cell textAlign={'right'} onClick={e => {}}>
           {!staked ? (
@@ -398,8 +392,15 @@ export default function Main(props) {
   }
 
   const PlayersTable = () => (
-    <Table unstackable fixed singleLine role="grid" aria-labelledby="header" style={{backgroundColor:'#11111E'}}>
-      <Table.Header style={{backgroundColor:'#11111E'}}>
+    <Table
+      unstackable
+      fixed
+      singleLine
+      role="grid"
+      aria-labelledby="header"
+      style={{ backgroundColor: '#11111E' }}
+    >
+      <Table.Header style={{ backgroundColor: '#11111E' }}>
         <Table.Row key={0}>
           <Table.HeaderCell
             textAlign={'left'}
@@ -408,11 +409,16 @@ export default function Main(props) {
             }}
             colSpan="3"
             id="header"
-            style={{backgroundColor:'#11111E'}}
+            style={{ backgroundColor: '#11111E' }}
           >
             <ReactSVG src={`${process.env.PUBLIC_URL}/assets/filter.svg`} />
           </Table.HeaderCell>
-          <Table.HeaderCell colSpan="3" id="header" textAlign={'center'} style={{backgroundColor:'#11111E', color:'white'}}>
+          <Table.HeaderCell
+            colSpan="3"
+            id="header"
+            textAlign={'center'}
+            style={{ backgroundColor: '#11111E', color: 'white' }}
+          >
             {' '}
             Players{' '}
           </Table.HeaderCell>
@@ -423,7 +429,7 @@ export default function Main(props) {
             onClick={e => {
               setOpenNewPlayerModal(true)
             }}
-            style={{backgroundColor:'#11111E', color:'white'}}
+            style={{ backgroundColor: '#11111E', color: 'white' }}
           >
             {action == 0 && (
               <ReactSVG src={`${process.env.PUBLIC_URL}/assets/add-item.svg`} />
@@ -438,16 +444,18 @@ export default function Main(props) {
             }}
             colSpan="3"
             id="header"
-            style={{backgroundColor:'#11111E', color:'white'}}
+            style={{ backgroundColor: '#11111E', color: 'white' }}
           >
             {'Account Id'}
           </Table.HeaderCell>
-          <Table.HeaderCell colSpan="3" id="header" textAlign={'center'} 
-           style={{backgroundColor:'#11111E', color:'white'}}
-           >
+          <Table.HeaderCell
+            colSpan="3"
+            id="header"
+            textAlign={'center'}
+            style={{ backgroundColor: '#11111E', color: 'white' }}
+          >
             {' '}
-            {'Place'}
-            {' '}
+            {'Place'}{' '}
           </Table.HeaderCell>
           <Table.HeaderCell
             colSpan="3"
@@ -456,15 +464,13 @@ export default function Main(props) {
             onClick={e => {
               setOpenNewPlayerModal(true)
             }}
-            style={{backgroundColor:'#11111E', color:'white'}}
+            style={{ backgroundColor: '#11111E', color: 'white' }}
           >
-           {'Status'}
+            {'Status'}
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
-      <Table.Body
-      style={{backgroundColor:'#11111E'}}
-      >
+      <Table.Body style={{ backgroundColor: '#11111E' }}>
         {game?.competitors?.map((player, index) => {
           return row(player, index)
         })}
@@ -474,29 +480,13 @@ export default function Main(props) {
 
   return (
     <div ref={contextRef}>
-         <PlayerModal />
+      <PlayerModal />
       <NewPlayerModal />
-      <Grid textAlign="center" >
-      <Grid.Row>
-          <Grid.Column>
-
-      {PlayersTable()}
-          </Grid.Column>
+      <Grid textAlign="center">
+        <Grid.Row>
+          <Grid.Column>{PlayersTable()}</Grid.Column>
         </Grid.Row>
-
       </Grid>
-      
     </div>
   )
 }
-
-{
-  /* scrolling style={{display: 'inline-flex', overflow: 'scroll'}} */
-}
-{
-  /* style={{display: 'inline-flex', overflow: 'scroll',width:'100%'}} */
-}
-
-//   <List vertical divided relaxed style={{height:343,width:346,backgroundColor:'white'}}>
-//   {listItemv2("15ARHHGKk5mW6ne99nyqTjFsaQVitTdvbb4yMmbPmqwfKtdq")}
-// </List>

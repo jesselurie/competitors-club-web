@@ -34,7 +34,7 @@ export default function Main(props) {
           >
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/home.svg`}
-                  size="tiny"
+                  size={'tiny'}
                   // fluid
               />
               
@@ -46,7 +46,7 @@ export default function Main(props) {
           >
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/tokens.svg`}
-                  size="tiny"
+                  size={'tiny'}
                   // fluid
               />
           </Menu.Item>
@@ -56,7 +56,7 @@ export default function Main(props) {
             onClick={handleItemClick}>
             <Image
                   src={`${process.env.PUBLIC_URL}/assets/trophy.svg`}
-                  size="tiny"
+                  size={'tiny'}
                   // fluid
             />
           </Menu.Item>
@@ -67,7 +67,7 @@ export default function Main(props) {
           >
               <Image
                   src={`${process.env.PUBLIC_URL}/assets/dice.svg`}
-                  size="tiny"
+                  size={'tiny'}
                   // fluid
               />
           </Menu.Item>
